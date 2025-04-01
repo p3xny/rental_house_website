@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 import lava from '@/assets/lawa.jpg';
@@ -8,9 +9,8 @@ import panorama from '@/assets/panorama.jpg';
 
 <template>
   <header class="header container" :style="{ '--panorama-url': `url(${panorama})` }">
-    <!-- <div>Test msg: {{ message }}</div> -->
 
-    <nav>
+    <nav :class="['navbar', { 'hidden-nav': hideNavbar }]">
       <ul>
         <RouterLink to="/" class="header__link header__home">
           Domek
@@ -22,21 +22,11 @@ import panorama from '@/assets/panorama.jpg';
           </svg>
           Rzepiska
         </RouterLink>
-        <!-- <a href="#" class="header__link header__home">
-          Domek
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-            <path
-              d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-          </svg>
-          Rzepiska
-        </a> -->
       </ul>
 
       <ul class="header__menu">
         <li>
-          <a href="#o-nas" class="header__link">O nas</a>
+          <RouterLink href="/o-nas" class="header__link">O nas</RouterLink>
         </li>
         <li>
           <a href="#galeria" class="header__link">Galeria</a>
@@ -54,17 +44,27 @@ import panorama from '@/assets/panorama.jpg';
           </button>
         </li>
       </ul>
+      <button class="header__bars">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
     </nav>
   </header>
 </template>
 
 <style scoped>
+.navbar {
+  display: none;
+}
+
 .header {
   display: flex;
   align-items: center;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background: var(--panorama-url);
 }
 
 .header nav {
@@ -79,8 +79,19 @@ import panorama from '@/assets/panorama.jpg';
   align-items: center;
   list-style: none;
   padding: 0;
-  margin-right: 2em;
+  /* margin-right: 2em; */
   gap: 1em;
+}
+
+.header__menu {
+  display: none;
+}
+
+.header__bars {
+  color: var(--clr-light);
+  width: var(--size-2xl);
+  height: var(--size-2xl);
+  display: block;
 }
 
 
@@ -122,7 +133,6 @@ import panorama from '@/assets/panorama.jpg';
 .header__btn {
   height: 3rem;
   font-size: var(--size-xxs);
-  /* background: burlywood; */
 }
 
 
@@ -178,6 +188,18 @@ import panorama from '@/assets/panorama.jpg';
 }
 
 @media (min-width: 768px) {
+  .header__menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    gap: 2em;
+  }
+
+  .header__bars {
+    display: none;
+  }
+
   .header__home {
     font-size: var(--size-sm);
   }

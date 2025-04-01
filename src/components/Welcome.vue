@@ -31,8 +31,8 @@
 }
 
 .welcome__name {
-  /* color: var(--clr-slate400); */
   color: burlywood;
+  /* color: var(--clr-warm-beige-800); */
   text-transform: uppercase;
   font-size: var(--size-xl);
   letter-spacing: -0.05rem;
@@ -40,8 +40,9 @@
 }
 
 .welcome__title {
-  /* color: var(--clr-slate400); */
   color: burlywood;
+  /* color: var(--clr-warm-beige-800); */
+
   text-transform: uppercase;
   font-size: var(--size-2xl);
   letter-spacing: -0.05rem;

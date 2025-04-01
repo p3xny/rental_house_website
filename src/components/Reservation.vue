@@ -6,16 +6,24 @@ const dateTomorrow = '01 Kwi 2025';
 <template>
   <section class="rezerwacja section">
     <div class="rezerwacja__form" id="formCalendar">
-      <span class="rezerwacja__span">Przyjazd</span>
-      <div class="rezerwacja__cell" id="arrival" onclick="openCalendar(id)">
+      <!-- <span class="rezerwacja__span">Przyjazd</span> -->
+      <div class="rezerwacja__date" id="arrival" onclick="openCalendar(id)">
         <span>{{ dateToday }}</span>
-      </div>
-      <span class="rezerwacja__span">Wyjazd</span>
-      <div class="rezerwacja__cell" id="departure" onclick="openCalendar(id)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+          style="width: 20px; height: 15px;;">
+          <path fill-rule="evenodd"
+            d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+            clip-rule="evenodd" />
+        </svg>
+
         <span>{{ dateTomorrow }}</span>
       </div>
-      <span class="rezerwacja__span">Liczba gości</span>
-      <div class="rezerwacja__cell" id="guestsButton" onclick="toggleDropdown()">2
+      <!-- <span class="rezerwacja__span">Wyjazd</span> -->
+      <!-- <div class="rezerwacja__cell" id="departure" onclick="openCalendar(id)">
+
+      </div> -->
+      <!-- <span class="rezerwacja__span">Liczba gości</span> -->
+      <div class="rezerwacja__guests" id="guestsButton" onclick="toggleDropdown()">2 Gości
         <div id="guest-dropdown-menu" class="dropdown-content"></div>
       </div>
     </div>
@@ -24,41 +32,53 @@ const dateTomorrow = '01 Kwi 2025';
 
 
 <style scoped>
+.arrow {
+  height: size(--size-sm);
+  width: size(--size-sm);
+}
+
 .rezerwacja {
   display: flex;
-  background-color: #F4F2ED;
-  background-color: var(--clr-warm-beige-200);
-
-  height: 300px;
   text-transform: uppercase;
-  /* border: 1px solid red; */
+  color: var(--clr-dark);
+  justify-content: center;
 }
 
 .rezerwacja__form {
   display: flex;
-  flex-direction: column;
-  width: 80%;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  width: 400px;
+  font-size: var(--size-lg);
 }
 
 .rezerwacja__header {
   text-transform: uppercase;
-  color: var(--clr-slate800);
-  /* color: red; */
+  color: var(--clr-dark);
 }
 
-.rezerwacja__cell {
-  border: 1px solid black;
-  width: 80%;
-  align-content: center;
-  padding-left: 1rem;
-  align-self: center;
+.rezerwacja__date {
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+
+  padding-left: 1em;
+  align-items: center;
   height: 60px;
+
+  background-color: var(--clr-light);
 }
 
-.rezerwacja__cell:hover {
+.rezerwacja__date:hover,
+.rezerwacja__guests:hover {
+  background-color: rgb(254, 253, 232);
   cursor: pointer;
+}
+
+.rezerwacja__guests {
+  display: flex;
+  width: 150px;
+  background-color: var(--clr-slate200);
+  align-items: center;
+  justify-content: center;
 }
 
 .show {
@@ -76,7 +96,12 @@ const dateTomorrow = '01 Kwi 2025';
 
 @media (min-width: 475px) {}
 
-@media (min-width: 640px) {}
+@media (min-width: 640px) {
+  .rezerwacja__form {
+    width: 475px;
+    font-size: var(--size-xl);
+  }
+}
 
 @media (min-width: 768px) {}
 
