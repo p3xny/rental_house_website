@@ -1,42 +1,55 @@
 <script setup>
-const dateToday = '31 Mar 2025';
-const dateTomorrow = '01 Kwi 2025';
+import { useCalendarStore } from '@/stores/calendarStore';
+import { defineEmits, ref } from 'vue';
+
+const emit = defineEmits(['toggleElement']);
+
+const handleClick = () => {
+  emit('toggleElement');
+}
+
+const months = ['Styczeń', 'Luty', 'Marzec',
+  'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec',
+  'Sierpień', 'Wrzesień', 'Październik',
+  'Listopad', 'Grudzień'
+]
+const date = new Date();
+const month = date.getMonth();
+const today = date.getDate();
+const year = date.getFullYear();
+const monthFirstLetters = months[month].substr(0, 3);
+
+const calendarStore = useCalendarStore();
+const dateToday = ref(`${today} ${monthFirstLetters} ${year}`);
+const dateTomorrow = ref(`${today + 1} ${monthFirstLetters} ${year}`);
 </script>
 
 <template>
   <section class="rezerwacja section">
     <div class="rezerwacja__form" id="formCalendar">
-      <!-- <span class="rezerwacja__span">Przyjazd</span> -->
-      <div class="rezerwacja__date" id="arrival" onclick="openCalendar(id)">
-        <span>{{ dateToday }}</span>
+      <div class="rezerwacja__date" id="arrival" @click="calendarStore.toggleCalendar()">
+        <span v-if="today < 10">0{{ dateToday }}</span>
+        <span v-else="">{{ dateToday }}</span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-          style="width: 20px; height: 15px;;">
+          style="width: 6rem; height: 3rem;" class="arrow">
           <path fill-rule="evenodd"
             d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
-            clip-rule="evenodd" />
+            clip-rule="evenodd" class="arrow" />
         </svg>
 
-        <span>{{ dateTomorrow }}</span>
+        <span v-if="today + 1 < 10">0{{ dateTomorrow }}</span>
+        <span v-else="">{{ dateTomorrow }}</span>
       </div>
-      <!-- <span class="rezerwacja__span">Wyjazd</span> -->
-      <!-- <div class="rezerwacja__cell" id="departure" onclick="openCalendar(id)">
-
-      </div> -->
-      <!-- <span class="rezerwacja__span">Liczba gości</span> -->
-      <div class="rezerwacja__guests" id="guestsButton" onclick="toggleDropdown()">2 Gości
+      <div class="rezerwacja__guests" id="guestsButton" @click="">2 Gości
         <div id="guest-dropdown-menu" class="dropdown-content"></div>
       </div>
+      <button class="rezerwacja__btn">Sprawdź dostępność</button>
     </div>
   </section>
 </template>
 
 
 <style scoped>
-.arrow {
-  height: size(--size-sm);
-  width: size(--size-sm);
-}
-
 .rezerwacja {
   display: flex;
   text-transform: uppercase;
@@ -47,7 +60,9 @@ const dateTomorrow = '01 Kwi 2025';
 .rezerwacja__form {
   display: flex;
   width: 400px;
-  font-size: var(--size-lg);
+  font-size: var(--size-base);
+  font-weight: bold;
+
 }
 
 .rezerwacja__header {
@@ -81,6 +96,21 @@ const dateTomorrow = '01 Kwi 2025';
   justify-content: center;
 }
 
+.rezerwacja__btn {
+  background-color: var(--clr-warm-beige-400);
+  color: var(--clr-dark);
+  border: none;
+  font-size: var(--size-base);
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+.rezerwacja__btn:hover {
+  background-color: var(--clr-warm-beige-200);
+  cursor: pointer;
+}
+
 .show {
   display: block;
 }
@@ -88,18 +118,22 @@ const dateTomorrow = '01 Kwi 2025';
 .dropdown-content {
   background-color: #738678;
   color: var(--clr-light);
-  width: 100px;
+  width: 150px;
   height: 300px;
   display: none;
 }
 
 
-@media (min-width: 475px) {}
+@media (min-width: 475px) {
+  .rezerwacja__form {
+    width: 400px;
+  }
+}
 
 @media (min-width: 640px) {
   .rezerwacja__form {
     width: 475px;
-    font-size: var(--size-xl);
+    font-size: var(--size-lg);
   }
 }
 
@@ -107,14 +141,35 @@ const dateTomorrow = '01 Kwi 2025';
 
 @media (min-width: 1024px) {
   .rezerwacja__form {
-    flex-direction: row;
+    width: 33rem;
+    font-size: var(--size-xl);
   }
 
-  .rezerwacja__header {}
+  .rezerwacja__date {
+    width: 24rem;
+  }
+
+  .rezerwacja__guests {
+    width: 9rem;
+  }
+
 }
 
 
-@media (min-width: 1280px) {}
+@media (min-width: 1280px) {
+  .rezerwacja__form {
+    width: 36rem;
+    font-size: var(--size-xl);
+  }
+
+  .rezerwacja__date {
+    width: 26rem;
+  }
+
+  .rezerwacja__guests {
+    width: 10rem;
+  }
+}
 
 
 @media (min-width: 1536px) {}

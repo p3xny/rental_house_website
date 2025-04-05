@@ -1,12 +1,15 @@
 <script setup>
 import lava from '@/assets/lawa.jpg';
 import villageSunset from '@/assets/village-sunset.jpg';
+import TatraMountainsGreen from '@/assets/gallery/TatraMountains-Green.png';
+import purpleSky from '@/assets/gallery/purple-sky-fhd-high.png';
+import tatraMountainsHousePanorama from '@/assets/gallery/tatra-mountains-house-panorama.jpg';
 </script>
 
 <template>
-  <section class="o-nas container section">
+  <section class="o-nas section-wide" id="o-nas">
     <div class="o-nas__content">
-      <h2 class="o-nas__title">Opis</h2>
+      <h2 class="o-nas__title">Dom z widokiem na panoramę Tatr</h2>
       <p class="o-nas__description">Domek wypoczynkowy z pięknym widokiem na
         <strong>panoramę Tatr</strong>.
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea ex dignissimos maiores quis expedita officia
@@ -17,22 +20,11 @@ import villageSunset from '@/assets/village-sunset.jpg';
         quibusdam
         alias eligendi earum veniam.
       </p>
-      <div class="welcome__hr-container">
-        <br>
-      </div>
-      <p class="o-nas__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos eius
-        dolorem
-        repellendus consequuntur autem ab debitis sequi enim minima laborum, non obcaecati et dicta possimus, quia
-        inventore excepturi soluta eligendi impedit neque laudantium molestiae? Aspernatur delectus, repudiandae
-        facere excepturi accusantium, minima nesciunt voluptatem optio distinctio rem facilis, hic necessitatibus
-        sed
-        accusamus incidunt. Velit minus sit at doloremque id, fugit aut, veniam nisi nesciunt voluptate fugiat
-        molestiae laborum corporis aperiam necessitatibus.</p>
     </div>
-    <div class="o-nas__line"> </div>
     <br class="img-separator">
     <div class="o-nas__img-wrapper">
-      <img class="o-nas__img" :src="villageSunset" alt="Mountain Village Sunset View">
+      <!-- <img class="o-nas__img" :src="villageSunset" alt="Mountain Village Sunset View"> -->
+      <img class="o-nas__img" :src="tatraMountainsHousePanorama" alt="Tatra Mountains panorama view from balcony">
     </div>
     <br>
   </section>
@@ -43,50 +35,43 @@ br {
   display: block;
 }
 
-.container {}
-
 .o-nas {
   display: flex;
-  text-align: center;
-  justify-content: center;
+  width: 100%;
   align-items: center;
   flex-direction: column;
 
-  /* background-color: #FBE9D0; */
-  /* background-color: rgba(120, 120, 120, 0.15); */
-  /* background-color: #FFFFFFE0; */
-  /* background-color: var(--clr-sage-green-600);
-  background-color: rgba(77, 93, 83, 0.15);
-  backdrop-filter: blur(1px); */
-
-  border-radius: 18px;
-  min-height: 50rem;
+  position: relative;
+  background-color: #FBE9D0;
   text-align: left;
+
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 .o-nas__title {
-  font-size: var(--size-4xl);
-  color: var(--clr-dark);
-  /* color: var(--clr-slate400); */
+  font-size: var(--size-2xl);
+  color: var(--clr-warm-beige-600);
+
   justify-self: left;
   padding-bottom: 1rem;
+  padding-left: 1rem;
 }
 
-.o-nas__content {
-  /* padding-left: 2rem; */
-}
 
 .o-nas__description {
-  max-width: 80ch;
+  max-width: 60ch;
   font-size: var(--size-sm);
   color: var(--clr-slate800);
-  /* color: var(--clr-light); */
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .o-nas__img {
   width: 94%;
   justify-self: center;
   border-radius: 18px;
+  /* box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.4); */
 }
 
 .o-nas__line {
@@ -104,20 +89,17 @@ br {
   color: var(--clr-dark);
 }
 
-@media (min-width: 475px) {
-  /* .o-nas__img {
-    width: 50rem;
-    padding-left: 0;
-    padding-right: 0;
-  } */
-}
+@media (min-width: 475px) {}
 
 @media (min-width: 640px) {
-  /* .o-nas__img {
-    width: 42rem;
-    padding-left: 0;
-    padding-right: 0;
-  } */
+  .o-nas__title {
+    font-size: var(--size-3xl);
+  }
+
+  .o-nas__description {
+    max-width: 80ch;
+    font-size: var(--size-base);
+  }
 }
 
 @media (min-width: 768px) {}
@@ -131,12 +113,20 @@ br {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 
-  /* 
-  .o-nas__img {
-    width: 48rem;
-  } */
+  .o-nas__title,
+  .o-nas__description {
+    padding-left: 2rem;
+  }
+
+  .o-nas__description {
+    max-width: 60ch;
+    padding-bottom: 1rem;
+  }
 
   .o-nas__line {
     display: inline-block;
@@ -145,18 +135,61 @@ br {
 }
 
 
-@media (min-width: 1280px) {
-
-  .o-nas__img {
-    /* width: 38rem; */
+@media (min-width: 1200px) {
+  .o-nas__description {
+    max-width: 50ch;
   }
 }
+
+@media (min-width: 1280px) {}
 
 
 @media (min-width: 1536px) {
 
   .o-nas__img {
-    /* width: 44rem; */
+    width: 60rem;
+    margin-right: 2rem;
+  }
+
+  .o-nas__title {
+    font-size: var(--size-5xl);
+  }
+
+  .o-nas__description {
+    font-size: var(--size-xl);
+  }
+}
+
+@media (min-width: 1675px) {
+  .o-nas__img {
+    width: 63rem;
+  }
+}
+
+@media (min-width: 1750px) {
+  .o-nas__img {
+    width: 67rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .o-nas__img {
+    width: 76rem;
+  }
+
+  .o-nas__title {
+    font-size: var(--size-6xl);
+  }
+
+  .o-nas__description {
+    font-size: var(--size-2xl);
+  }
+}
+
+@media (min-width: 2050px) {
+  .o-nas__img {
+    /* width: 1fr; */
+    width: 100%;
   }
 }
 </style>

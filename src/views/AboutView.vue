@@ -1,21 +1,3 @@
-<template>
-  <div>
-    <nav :class="['navbar', { 'hidden-nav': hideNavbar }]">
-      <h1 class="logo">My Website</h1>
-      <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="content">
-      <p>Scroll down to see the sticky effect...</p>
-      <div class="spacer">More content here...</div>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
   name: "StickyNavbar",
@@ -44,14 +26,32 @@ export default {
 };
 </script>
 
+<template>
+  <div>
+    <nav :class="['navbar', { 'hidden-nav': hideNavbar }]">
+      <h1 class="logo">My Website</h1>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="content">
+      <p>Scroll down to see the sticky effect...</p>
+      <div class="spacer">More content here...</div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background: #333;
-  color: white;
+  background: #000;
+  /* color: white; */
   padding: 15px 20px;
   display: flex;
   justify-content: space-between;

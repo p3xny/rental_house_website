@@ -1,18 +1,71 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { useCalendarStore } from '@/stores/calendarStore';
+import { ref, computed, onMounted, onBeforeUnmount, defineProps } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
-import lava from '@/assets/lawa.jpg';
 import panorama from '@/assets/panorama.jpg';
+
+
+const props = defineProps({
+  isLightTheme: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+
+const route = useRoute();
+const router = useRouter();
+const lastScrollY = ref(0);
+const scrolled = ref(false);
+const hideNavbar = ref(false);
+
+const calendarStore = useCalendarStore();
+
+const isHomePage = computed(() => route.path === '/');
+
+const handleHomeClick = (event) => {
+  if (isHomePage.value) {
+    event.preventDefault(); // Prevent reloading
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    router.push('/');
+  }
+}
+
+const handleScroll = () => {
+  if (window.scrollY > lastScrollY.value) {
+    hideNavbar.value = true;
+  } else {
+    hideNavbar.value = false;
+  }
+
+  scrolled.value = window.scrollY > 50;
+
+  lastScrollY.value = window.scrollY;
+}
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+
+const linkThemeClass = computed(() => {
+  if (scrolled.value) return 'link--light'
+  return props.isLightTheme ? 'link--dark' : 'link--light'
+})
 </script>
 
 
 <template>
-  <header class="header container" :style="{ '--panorama-url': `url(${panorama})` }">
+  <header id="home" class="header container" :style="{ '--panorama-url': `url(${panorama})` }">
 
-    <nav :class="['navbar', { 'hidden-nav': hideNavbar }]">
+    <nav :class="['navbar', { 'hidden-nav': hideNavbar, 'scrolled-nav': scrolled }]">
       <ul>
-        <RouterLink to="/" class="header__link header__home">
+        <a :href="isHomePage ? '#home' : '/'" @click="handleHomeClick" class="header__link header__home"
+          :class="linkThemeClass">
           Domek
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path
@@ -21,25 +74,26 @@ import panorama from '@/assets/panorama.jpg';
               d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
           </svg>
           Rzepiska
-        </RouterLink>
+        </a>
       </ul>
 
       <ul class="header__menu">
         <li>
-          <RouterLink href="/o-nas" class="header__link">O nas</RouterLink>
+          <a href="#o-nas" class="header__link" :class="linkThemeClass">O nas</a>
         </li>
         <li>
-          <a href="#galeria" class="header__link">Galeria</a>
+          <a href="/galeria" class="header__link" :class="linkThemeClass">Galeria</a>
         </li>
         <li>
-          <a href="#cennik" class="header__link">Cennik</a>
+          <a href="#cennik" class="header__link" :class="linkThemeClass">FAQ</a>
         </li>
         <li>
-          <a href="#kontakt" class="header__link">Kontakt</a>
+          <a href="#kontakt" class="header__link" :class="linkThemeClass">Kontakt</a>
         </li>
         <li class="header__line"></li>
         <li>
-          <button id="reservationButton" class="btn header__btn" style="text-transform: uppercase;">
+          <button id="reservationButton" :class="scrolled ? 'header__btn-scrolled' : 'btn header__btn'"
+            style="text-transform: uppercase;" @click="calendarStore.toggleCalendar()">
             Rezerwacja
           </button>
         </li>
@@ -57,7 +111,25 @@ import panorama from '@/assets/panorama.jpg';
 
 <style scoped>
 .navbar {
-  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent;
+  /* padding: 15px 20px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+  transform: translateY(0);
+}
+
+.scrolled-nav {
+  background: black;
+  transition: transform 0.3 ease-in-out, padding 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0;
 }
 
 .header {
@@ -65,6 +137,7 @@ import panorama from '@/assets/panorama.jpg';
   align-items: center;
   padding-top: 1rem;
   padding-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 .header nav {
@@ -79,7 +152,6 @@ import panorama from '@/assets/panorama.jpg';
   align-items: center;
   list-style: none;
   padding: 0;
-  /* margin-right: 2em; */
   gap: 1em;
 }
 
@@ -89,11 +161,20 @@ import panorama from '@/assets/panorama.jpg';
 
 .header__bars {
   color: var(--clr-light);
-  width: var(--size-2xl);
-  height: var(--size-2xl);
+  background: none;
+  border: none;
+  width: var(--size-6xl);
+  height: var(--size-6xl);
   display: block;
+  margin-right: 2rem;
+
+  transition: 0.5s background-color, 0.5s color;
 }
 
+.header__bars:hover {
+  cursor: pointer;
+  color: var(--clr-gold);
+}
 
 .header__home {
   display: flex;
@@ -106,54 +187,72 @@ import panorama from '@/assets/panorama.jpg';
 }
 
 .header__home svg {
-  width: var(--size-base);
-  height: var(--size-base);
+  width: var(--size-lg);
+  height: var(--size-lg);
 
 }
 
 
 .header__link {
-  font-size: var(--size-xxs);
+  font-size: var(--size-xs);
   text-decoration: none;
   font-weight: 600;
-  color: var(--clr-light);
+  /* color: var(--clr-light); */
   letter-spacing: -0.05em;
   transition: color 0.3s;
 }
 
+
+.header__link.link--light {
+  color: var(--clr-light);
+}
+
+.header__link.link--dark {
+  color: var(--clr-dark);
+}
+
 .header__link:hover {
-  color: var(--clr-gold);
+  color: gold;
 }
 
 .header__line {
   border: 1px solid var(--clr-slate400);
-  padding-top: 1.5em;
+  padding-top: 2.5em;
 }
 
 .header__btn {
   height: 3rem;
   font-size: var(--size-xxs);
+  margin-top: 0.5rem;
+  margin-right: 2rem;
 }
+
+.header__btn,
+.header__btn-scrolled {
+  transition: all 0.3s ease-in-out;
+}
+
+.header__btn-scrolled {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  font-size: var(--size-xl);
+  font-weight: bold;
+  color: var(--clr-dark);
+  background-color: var(--clr-warm-beige-400);
+  border: none;
+}
+
+.header__btn-scrolled:hover {
+  cursor: pointer;
+  color: gold;
+}
+
 
 
 
 @media (min-width: 475px) {
   .header__menu {
     gap: 1.25em;
-  }
-
-
-  .header__home {
-    font-size: var(--size-xxs);
-  }
-
-  .header__home svg {
-    width: var(--size-base);
-    height: var(--size-base);
-  }
-
-  .header__link {
-    font-size: var(--size-xxs);
   }
 
   .header__btn {
@@ -194,6 +293,8 @@ import panorama from '@/assets/panorama.jpg';
     list-style: none;
     padding: 0;
     gap: 2em;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .header__bars {
