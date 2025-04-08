@@ -12,17 +12,21 @@
 
 <style scoped>
 .welcome {
+  padding-top: 1rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  height: 35vh;
+  height: 55vh;
 }
 
 .welcome__name {
-  color: burlywood;
+  /* color: burlywood; */
+  color: var(--clr-light);
+  color: var(--clr-warm-beige-400);
+
   text-transform: uppercase;
   font-size: var(--size-3xl);
   letter-spacing: -0.05rem;
@@ -30,7 +34,9 @@
 }
 
 .welcome__title {
-  color: burlywood;
+  /* color: burlywood; */
+  color: var(--clr-warm-beige-400);
+  /* color: var(--clr-light); */
 
   text-transform: uppercase;
   font-size: var(--size-4xl);
@@ -39,8 +45,11 @@
 }
 
 .welcome__subtitle {
-  color: #b9c7dc;
+  /* color: #b9c7dc; */
   color: var(--clr-warm-beige-400);
+  /* color: burlywood; */
+  color: var(--clr-slate200);
+
   font-size: var(--size-sm);
   line-height: 0.9;
 }
@@ -50,11 +59,13 @@
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
+
+
+  color: black;
 }
 
 .welcome__hr {
-  color: var(--clr-slate400);
-  height: 1px;
+  border: solid 1px var(--clr-slate400);
 }
 
 
@@ -84,7 +95,7 @@
 
 @media (min-width: 768px) {
   .welcome__name {
-    font-size: var(--size-5xl);
+    font-size: var(--size-4xl);
   }
 
   .welcome__title {
@@ -98,7 +109,7 @@
 
 @media (min-width: 1024px) {
   .welcome__name {
-    font-size: var(--size-6xl);
+    font-size: var(--size-5xl);
   }
 
   .welcome__title {
@@ -112,8 +123,8 @@
 }
 
 @media (min-width: 1280px) {
-  .welcome__title {
-    font-size: var(--size-7xl);
+  .welcome__name {
+    font-size: var(--size-6xl);
   }
 
   .welcome__title {

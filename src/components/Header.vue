@@ -26,7 +26,7 @@ const isHomePage = computed(() => route.path === '/');
 
 const handleHomeClick = (event) => {
   if (isHomePage.value) {
-    event.preventDefault(); // Prevent reloading
+    event.preventDefault(); // Keine reloading
     window.scrollTo({ top: 0, behavior: "smooth" });
   } else {
     router.push('/');
@@ -79,16 +79,16 @@ const linkThemeClass = computed(() => {
 
       <ul class="header__menu">
         <li>
-          <a href="#o-nas" class="header__link" :class="linkThemeClass">O nas</a>
+          <a :href="isHomePage ? '#o-nas' : '/#o-nas'" class="header__link" :class="linkThemeClass">O nas</a>
         </li>
         <li>
           <a href="/galeria" class="header__link" :class="linkThemeClass">Galeria</a>
         </li>
         <li>
-          <a href="#cennik" class="header__link" :class="linkThemeClass">FAQ</a>
+          <a :href="isHomePage ? '#faq' : '/#faq'" class="header__link" :class="linkThemeClass">FAQ</a>
         </li>
         <li>
-          <a href="#kontakt" class="header__link" :class="linkThemeClass">Kontakt</a>
+          <a :href="isHomePage ? '#kontakt' : '/#kontakt'" class="header__link" :class="linkThemeClass">Kontakt</a>
         </li>
         <li class="header__line"></li>
         <li>
@@ -115,8 +115,6 @@ const linkThemeClass = computed(() => {
   top: 0;
   left: 0;
   width: 100%;
-  background: transparent;
-  /* padding: 15px 20px; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -127,6 +125,8 @@ const linkThemeClass = computed(() => {
 
 .scrolled-nav {
   background: black;
+  background: var(--clr-dark);
+
   transition: transform 0.3 ease-in-out, padding 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 0;
@@ -135,9 +135,6 @@ const linkThemeClass = computed(() => {
 .header {
   display: flex;
   align-items: center;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  /* margin-bottom: 1rem; */
 }
 
 .header nav {
@@ -179,7 +176,7 @@ const linkThemeClass = computed(() => {
 .header__home {
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.2em;
   color: var(--clr-light);
   text-decoration: none;
   font-size: var(--size-xxs);
@@ -189,7 +186,6 @@ const linkThemeClass = computed(() => {
 .header__home svg {
   width: var(--size-lg);
   height: var(--size-lg);
-
 }
 
 
@@ -197,7 +193,6 @@ const linkThemeClass = computed(() => {
   font-size: var(--size-xs);
   text-decoration: none;
   font-weight: 600;
-  /* color: var(--clr-light); */
   letter-spacing: -0.05em;
   transition: color 0.3s;
 }
@@ -208,7 +203,7 @@ const linkThemeClass = computed(() => {
 }
 
 .header__link.link--dark {
-  color: var(--clr-dark);
+  color: var(--clr-dark-blue);
 }
 
 .header__link:hover {
@@ -218,6 +213,28 @@ const linkThemeClass = computed(() => {
 .header__line {
   border: 1px solid var(--clr-slate400);
   padding-top: 2.5em;
+}
+
+
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: +0.05rem;
+
+  background-color: var(--clr-light);
+  color: var(--clr-dark-blue);
+
+  padding: 0.5em 1em;
+  border-radius: 6px;
+  transition: transform 0.3s, color 0.3s, background-color 0.3s;
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-5px);
+  background-color: var(--clr-warm-beige-200);
+  cursor: pointer;
 }
 
 .header__btn {
@@ -237,14 +254,14 @@ const linkThemeClass = computed(() => {
   padding-bottom: 1.5rem;
   font-size: var(--size-xl);
   font-weight: bold;
-  color: var(--clr-dark);
-  background-color: var(--clr-warm-beige-400);
+  color: var(--clr-dark-blue);
+  background-color: var(--clr-light);
   border: none;
 }
 
 .header__btn-scrolled:hover {
   cursor: pointer;
-  color: gold;
+  background-color: var(--clr-warm-beige-200);
 }
 
 

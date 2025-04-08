@@ -20,6 +20,7 @@
   --clr-warm-beige-400: #d5b895;
   --clr-warm-beige-600: #C19770;
   --clr-warm-beige-800: #A67A5B;
+  --clr-warm-beige-900: #9e6a44bd;
 
   /* rose rgb(255, 29, 72) */
   /* indigo rgb(79, 70, 229) */
@@ -73,29 +74,6 @@ a {
 }
 
 /* UTILS */
-.btn {
-  display: inline-block;
-  font-weight: 600;
-  text-decoration: none;
-  letter-spacing: +0.05rem;
-
-  /* background-color: rgb(254, 253, 232); */
-  background-color: var(--clr-warm-beige-400);
-
-  color: var(--clr-dark);
-
-  padding: 0.5em 1em;
-  border-radius: 6px;
-  transition: transform 0.3s, color 0.3s, background-color 0.3s;
-  border: none;
-}
-
-.btn:hover {
-  transform: translateY(-5px);
-  color: gold;
-  cursor: pointer;
-}
-
 .container {
   width: 100%;
   margin-left: auto;

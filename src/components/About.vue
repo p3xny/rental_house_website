@@ -1,9 +1,10 @@
 <script setup>
-import lava from '@/assets/lawa.jpg';
 import villageSunset from '@/assets/village-sunset.jpg';
-import TatraMountainsGreen from '@/assets/gallery/TatraMountains-Green.png';
+import TatraMountainsGreen from '@/assets/gallery/TatraMountains-Green.jpg';
 import purpleSky from '@/assets/gallery/purple-sky-fhd-high.png';
 import tatraMountainsHousePanorama from '@/assets/gallery/tatra-mountains-house-panorama.jpg';
+import tatraMountainsClean from '@/assets/gallery/TatraMountains-Clean.jpg';
+
 </script>
 
 <template>
@@ -22,15 +23,58 @@ import tatraMountainsHousePanorama from '@/assets/gallery/tatra-mountains-house-
       </p>
     </div>
     <br class="img-separator">
-    <div class="o-nas__img-wrapper">
-      <!-- <img class="o-nas__img" :src="villageSunset" alt="Mountain Village Sunset View"> -->
-      <img class="o-nas__img" :src="tatraMountainsHousePanorama" alt="Tatra Mountains panorama view from balcony">
+    <div class="o-nas__img-wrapper gallery">
+      <img class="o-nas__img" :src="tatraMountainsClean" alt="Tatra Mountains panorama view from balcony">
+      <!-- <img class="o-nas__img" :src="tatraMountainsHousePanorama" alt=""> -->
+      <!-- <img class="o-nas__img" :src="purpleSky" alt=""> -->
+      <img class="o-nas__img" :src="TatraMountainsGreen" alt="Tatra Mountains panorama view green grass and coffee">
     </div>
     <br>
   </section>
 </template>
 
 <style scoped>
+/* TEST */
+.gallery {
+  /* --g: 8px; */
+  --g: 3px;
+  /* the gap */
+
+  display: grid;
+  clip-path: inset(1px);
+  /* to avoid visual glitchs */
+}
+
+.gallery>img {
+  --_p: calc(-1*var(--g));
+  grid-area: 1/1;
+  /* width: 350px; */
+  /* control the size */
+  aspect-ratio: 1;
+  cursor: pointer;
+  transition: .4s .1s;
+}
+
+.gallery>img:first-child {
+  clip-path: polygon(0 0, calc(100% + var(--_p)) 0, 0 calc(100% + var(--_p)))
+}
+
+.gallery>img:last-child {
+  clip-path: polygon(100% 100%, 100% calc(0% - var(--_p)), calc(0% - var(--_p)) 100%)
+}
+
+.gallery:hover>img:last-child,
+.gallery:hover>img:first-child:hover {
+  --_p: calc(50% - var(--g));
+}
+
+.gallery:hover>img:first-child,
+.gallery:hover>img:first-child:hover+img {
+  --_p: calc(-50% - var(--g));
+}
+
+/* TEST */
+
 br {
   display: block;
 }
@@ -42,16 +86,22 @@ br {
   flex-direction: column;
 
   position: relative;
-  background-color: #FBE9D0;
+
+  /* background-color: #FBE9D0; */
+  /* background-color: var(--clr-sage-green-500); */
+  background-color: var(--clr-dark-blue);
+
   text-align: left;
 
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 .o-nas__title {
   font-size: var(--size-2xl);
-  color: var(--clr-warm-beige-600);
+  /* color: var(--clr-warm-beige-400); */
+  /* color: var(--clr-forest-green-400); */
+  color: var(--clr-light);
 
   justify-self: left;
   padding-bottom: 1rem;
@@ -62,7 +112,7 @@ br {
 .o-nas__description {
   max-width: 60ch;
   font-size: var(--size-sm);
-  color: var(--clr-slate800);
+  color: var(--clr-slate200);
   padding-left: 1rem;
   padding-right: 1rem;
 }

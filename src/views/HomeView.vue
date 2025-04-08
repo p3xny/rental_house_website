@@ -1,7 +1,4 @@
 <script setup>
-import { ref, watch } from 'vue';
-import { useCalendarStore } from '@/stores/calendarStore';
-import { useScreens } from 'vue-screen-utils';
 
 import Header from '../components/Header.vue';
 import Welcome from '../components/Welcome.vue';
@@ -9,33 +6,10 @@ import Reservation from '@/components/Reservation.vue';
 import About from '../components/About.vue';
 import Gallery from '../components/Gallery.vue';
 import Contact from '../components/Contact.vue';
-
-
-const isCalendarOpen = ref(false);
-const calendarStore = useCalendarStore();
-const { mapCurrent } = useScreens({
-  xs: '0px',
-  sm: '550px',
-  md: '768px',
-  lg: '1024px',
-});
-const columns = mapCurrent({ sm: 2 }, 2);
-const expanded = mapCurrent({ lg: false }, true);
-const attrs = ref([
-  {
-    key: 'Any',
-    dot: true,
-    dates: new Date(),
-    expanded: true,
-  }
-]);
-const userLocale = ref('pl-PL');
 </script>
 
 
 <template>
-  <div id="overlay" v-if="calendarStore.isCalendarVisible" @click="calendarStore.toggleCalendar()"></div>
-
   <!doctype html>
   <html lang="en">
 
@@ -47,17 +21,11 @@ const userLocale = ref('pl-PL');
   </head>
 
   <body>
-
     <div class="hero__bg"></div>
     <Header />
 
     <div id="app">
       <main>
-        <div id="calendar-container" class="calendar-container" v-if="calendarStore.isCalendarVisible">
-          <VCalendar :min-date="new Date()" :columns="columns" :attributes="attrs" :expanded="expanded"
-            :locale="userLocale" />
-        </div>
-
         <Welcome />
         <Reservation />
         <About />
@@ -81,7 +49,7 @@ const userLocale = ref('pl-PL');
   height: 120vh;
   background: url('../assets/panorama.jpg') no-repeat center/cover;
   z-index: -1;
-  filter: brightness(60%);
+  filter: brightness(50%);
 }
 
 .calendar-container {
@@ -92,10 +60,7 @@ const userLocale = ref('pl-PL');
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1001;
-
-  /* max-width: 500px; */
   margin: 20px auto;
-  /* padding: 20px; */
 }
 
 .vc-title {
@@ -108,16 +73,14 @@ const userLocale = ref('pl-PL');
   width: 20px;
 }
 
-.vc-weekday {
-  /* color: var(--clr-slate600); */
-}
+.vc-weekday {}
 
 .vc-weeks {
   width: 180px;
   min-width: 180px;
   height: 180px;
 
-  color: var(--clr-warm-beige-800);
+  /* color: var(--clr-dark-blue); */
 }
 
 .vc-pane {

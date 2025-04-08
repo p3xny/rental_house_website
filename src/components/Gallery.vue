@@ -61,15 +61,21 @@ const prevImg = () => {
 .home-gallery__welcome-section {
   padding-top: 4rem;
   padding-bottom: 4rem;
-  background-color: var(--clr-warm-beige-400);
+  /* background-color: var(--clr-warm-beige-400); */
+  /* background-color: var(--clr-warm-beige-600); */
+  /* background-color: #387c44be; */
+  /* background-color: var(--clr-sage-green-500); */
+  background-color: var(--clr-light);
 }
 
 .home-gallery__title {
   text-align: center;
   font-size: var(--size-2xl);
 
-  color: var(--clr-light);
-  color: var(--clr-warm-beige-200);
+  /* color: var(--clr-dark-blue); */
+  color: var(--clr-warm-beige-400);
+  /* color: #387c44be; */
+
   padding-left: 2rem;
   padding-right: 2rem;
   text-transform: uppercase;
@@ -138,7 +144,7 @@ const prevImg = () => {
 .home-gallery {
   text-align: center;
   justify-content: center;
-  background-color: #FBE9D0;
+  background-color: var(--clr-light);
 }
 
 .home-gallery__img {
