@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
 import Header from '@/components/Header.vue';
 
@@ -38,25 +38,17 @@ const elementStyle = computed(() => ({
   transition: 'all 0.3s ease',
 }))
 
-const expandedIndex = ref(null);
 
-const expandImage = (index) => {
-  expandedIndex.value = index;
-};
+const viewerSrc = ref('');
+const viewerVisible = ref(false);
 
-const collapseImage = () => {
-  expandedIndex.value = null;
+const showImage = (src) => {
+  viewerSrc.value = src;
+  viewerVisible.value = true;
 }
 
-const viewImage = (id) => {
-  const img = document.getElementById(id);
-  img.style.position = 'fixed';
-  img.style.top = '50%';
-  img.style.left = '50%';
-  img.style.transform = 'translate(-50%, -50%)';
-  img.style.zIndex = '1002';
-  img.style.margin = '20px auto';
-  console.log(img)
+const closeViewer = () => {
+  viewerVisible.value = false;
 }
 
 </script>
@@ -69,8 +61,7 @@ const viewImage = (id) => {
       <div v-for="(img, index) in imgs" :key="index" style="
   position: relative;
   border: 6px solid transparent;" :class="[`img-${index}`, 'img-container', { expanded: expandedIndex === index }]"
-        class="gallery-item" @mouseenter="expandImage(index)" @mouseleave="collapseImage" :id="`img-${index}`"
-        @click="viewImage(`img-${index}`)">
+        class="gallery-item image" @mouseenter="" @mouseleave="" :id="`img-${index}`" @click="showImage(img)">
         <img :src="img" alt="image" @mouseenter="isHovered = true" @mouseleave="isHovered = false"
           :style="elementStyle">
         {{ console.log(index) }}
@@ -79,9 +70,14 @@ const viewImage = (id) => {
           <!-- <h2>Overlay Text</h2> -->
         </div>
       </div>
-    </div>
-  </div>
 
+      <div id="image-viewer" v-show="viewerVisible" :style="{ display: viewerVisible ? 'block' : 'none' }">
+        <span id="close" @click="closeViewer">&times;</span>
+        <img :src="viewerSrc" id="full-image">
+      </div>
+    </div>
+
+  </div>
 </template>
 
 
@@ -109,7 +105,11 @@ const viewImage = (id) => {
 }
 
 .gallery__title {
+  font-family: 'Playfair Display', serif;
+
   color: var(--clr-warm-beige-400);
+  /* color: var(--clr-dark-blue); */
+
   /* background-color: var(--clr-warm-beige-600); */
   width: 100%;
   font-size: var(--size-8xl);
@@ -165,6 +165,60 @@ const viewImage = (id) => {
   background-color: var(--clr-light);
   margin-bottom: 5rem;
 }
+
+/* IMAGE VIEWER START */
+#image-viewer {
+  display: none;
+  z-index: 3002;
+}
+
+#image-viewer div {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#image-viewer div {
+  display: block;
+  width: 80%;
+  max-width: 800px;
+  animation: showImage 0.5s;
+}
+
+@keyframes showImage {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+#close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: var(--clr-light);
+  font-size: 2rem;
+}
+
+#close:hover,
+#close:focues {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* IMAGE VIEWER END */
+
+
 
 @media (min-width: 475px) {
   .gallery__img-grid {

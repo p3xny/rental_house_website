@@ -20,16 +20,37 @@ const imgs = Object.keys(homeGalleryImages);
 const currentIndex = ref(0);
 const currentImg = ref(homeGalleryImages[imgs[currentIndex.value]].img);
 
+// TEST
+const nextImgPath = ref(null);
+const slidingDirection = ref('');
+const isAnimating = ref(false);
+let nextIndex = 0;
+
 const nextImg = () => {
-  currentIndex.value = (currentIndex.value + 1) % imgs.length;
-  currentImg.value = homeGalleryImages[imgs[currentIndex.value]].img;
+  if (isAnimating.value) return;
+  isAnimating.value = true;
+  slidingDirection.value = 'left';
+  nextIndex = (currentIndex.value + 1) % imgs.length;
+  nextImgPath.value = homeGalleryImages[imgs[nextIndex]].img;
 }
 
 const prevImg = () => {
-  currentIndex.value = (currentIndex.value - 1 + imgs.length) % imgs.length;
-  currentImg.value = homeGalleryImages[imgs[currentIndex.value]].img;
+  if (isAnimating.value) return;
+  isAnimating.value = true;
+  slidingDirection.value = 'right';
+  nextIndex = (currentIndex.value - 1 + imgs.length) % imgs.length;
+  nextImgPath.value = homeGalleryImages[imgs[nextIndex]].img;
+};
 
-}
+const handleAnimationEnd = () => {
+  // When animation ends, update the current image and reset transition state.
+  currentIndex.value = nextIndex;
+  currentImg.value = nextImgPath.value;
+  nextImgPath.value = null;
+  isAnimating.value = false;
+  slidingDirection.value = '';
+};
+// TEST
 </script>
 
 <template>
@@ -38,7 +59,18 @@ const prevImg = () => {
   </div>
   <section class="home-gallery">
     <div class="image-wrapper">
-      <img class="home-gallery__img" :src="currentImg" alt="Image">
+      <div class="image-container">
+        <img :src="currentImg" alt="Current Image" class="slide-image" :class="{
+          'slide-out-left': slidingDirection === 'left',
+          'slide-out-right': slidingDirection === 'right'
+        }">
+
+        <img v-if="nextImgPath" class="slide-image" :src="nextImgPath" alt="Next" :class="{
+          'slide-in-right': slidingDirection === 'left',
+          'slide-in-left': slidingDirection === 'right'
+        }" @animationend="handleAnimationEnd">
+      </div>
+
       <button @click="prevImg" class="home-gallery-btn" id="prev-img-btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="arrow">
           <path fill-rule="evenodd"
@@ -61,19 +93,17 @@ const prevImg = () => {
 .home-gallery__welcome-section {
   padding-top: 4rem;
   padding-bottom: 4rem;
-  /* background-color: var(--clr-warm-beige-400); */
-  /* background-color: var(--clr-warm-beige-600); */
-  /* background-color: #387c44be; */
-  /* background-color: var(--clr-sage-green-500); */
   background-color: var(--clr-light);
 }
 
 .home-gallery__title {
+  /* font-family: 'Playfair Display', serif; */
+
   text-align: center;
   font-size: var(--size-2xl);
 
-  /* color: var(--clr-dark-blue); */
-  color: var(--clr-warm-beige-400);
+  color: var(--clr-dark-blue);
+  /* color: var(--clr-warm-beige-400); */
   /* color: #387c44be; */
 
   padding-left: 2rem;
@@ -142,9 +172,10 @@ const prevImg = () => {
 }
 
 .home-gallery {
-  text-align: center;
-  justify-content: center;
-  background-color: var(--clr-light);
+  /* text-align: center; */
+  /* justify-content: center; */
+  /* background-color: var(--clr-light); */
+  /* background-color: blue; */
 }
 
 .home-gallery__img {
@@ -153,21 +184,141 @@ const prevImg = () => {
   object-fit: cover;
 }
 
-.home-gallery__img:nth-child(1) {
-  z-index: 4;
+
+
+/* TEST */
+.image-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
 
-.home-gallery__img:nth-child(2) {
-  z-index: 3;
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.home-gallery__img:nth-child(3) {
-  z-index: 2;
+/* Both images are absolutely positioned */
+.slide-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
 }
 
-.home-gallery__img:nth-child(4) {
-  z-index: 1;
+/* Animation definitions */
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
 }
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Assign animations with a duration of 0.5s */
+.slide-out-left {
+  animation: slideOutLeft 0.5s forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.5s forwards;
+}
+
+.slide-out-right {
+  animation: slideOutRight 0.5s forwards;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.5s forwards;
+}
+
+/* Other styling (welcome section, buttons, etc.) */
+.home-gallery__welcome-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  background-color: var(--clr-light);
+}
+
+.home-gallery__title {
+  text-align: center;
+  font-size: var(--size-2xl);
+  color: var(--clr-dark-blue);
+  padding: 0 2rem;
+  text-transform: uppercase;
+}
+
+.home-gallery {
+  /* text-align: center;
+  justify-content: center; */
+  /* background-color: var(--clr-light); */
+  background-color: var(--clr-dark);
+}
+
+#prev-img-btn {
+  left: 0;
+}
+
+#next-img-btn {
+  right: 0;
+}
+
+.home-gallery-btn:hover {
+  cursor: pointer;
+  color: gold;
+}
+
+/* @media (min-width: 640px) {
+  .home-gallery__title {
+    font-size: var(--size-3xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-gallery__welcome-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  .home-gallery__title {
+    font-size: var(--size-4xl);
+  }
+} */
+/* TEST */
 
 @media (min-width: 640px) {
   .home-gallery__title {

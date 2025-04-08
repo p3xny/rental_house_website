@@ -53,6 +53,7 @@ import tatraMountainsClean from '@/assets/gallery/TatraMountains-Clean.jpg';
   aspect-ratio: 1;
   cursor: pointer;
   transition: .4s .1s;
+  border-radius: 18px;
 }
 
 .gallery>img:first-child {

@@ -3,7 +3,7 @@
 <template>
   <section id="kontakt">
     <div class="contact">
-      <h2 class="contact__title">Wynajem już od ___ złotych za dobę</h2>
+      <h2 class="contact__title">Wynajem już od <strong class="price">900</strong> złotych za dobę</h2>
     </div>
     <footer>
       <div class="phone">
@@ -40,12 +40,26 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  text-align: center;
 
-  background-color: var(--clr-light);
-  color: var(--clr-warm-beige-600);
+  /* background-color: var(--clr-light); */
+  background-color: var(--clr-dark);
+  /* background-color: var(--clr-forest-green-400); */
+  /* background-color: var(--clr-warm-beige-800); */
 
-  justify-content: flex-start;
-  align-items: left;
+  /* color: var(--clr-warm-beige-400); */
+  /* color: var(--clr-dark-blue); */
+  /* color: var(--clr-warm-beige-100); */
+  /* color: var(--clr-light); */
+  color: var(--clr-slate400);
+
+}
+
+.price {
+  color: var(--clr-light);
+  /* color: var(--clr-slate400); */
+  /* color: var(--clr-forest-green-400); */
+  /* color: ; */
 }
 
 .contact__title {
@@ -60,17 +74,14 @@
   font-size: var(--size-xl)
 }
 
+
 .contact__info {
   text-align: left;
   align-self: left;
 }
 
 footer {
-  padding-top: 0.7rem;
-  /* padding-bottom: 0.7rem; */
-  /* background-color: var(--clr-warm-beige-400); */
-  /* color: var(--clr-warm-beige-200); */
-
+  padding-top: 1rem;
   background-color: var(--clr-dark-blue);
   color: var(--clr-light);
 
