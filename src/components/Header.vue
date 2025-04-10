@@ -107,6 +107,9 @@ const handleAnimationEnd = () => {
           <a href="/galeria" class="header__link" :class="linkThemeClass">Galeria</a>
         </li>
         <li>
+          <a href="#atrakcje" class="header__link" :class="linkThemeClass">Atrakcje</a>
+        </li>
+        <li>
           <a :href="isHomePage ? '#faq' : '/#faq'" class="header__link" :class="linkThemeClass">FAQ</a>
         </li>
         <li>
@@ -182,7 +185,6 @@ const handleAnimationEnd = () => {
 }
 
 .header__bars {
-  /* color: var(--clr-light); */
   background: none;
   border: none;
   width: var(--size-6xl);

@@ -71,7 +71,8 @@ const animationClass = computed(() => {
   /* width: 65vw; */
   /* width: 300px; */
   width: 100vw;
-  background-color: var(--clr-dark-blue);
+  /* background-color: var(--clr-dark-blue); */
+  background-color: var(--clr-light);
   box-shadow: 0 4px 2px -2px black;
 
   /* animation: slide-in 0.3s; */
@@ -115,8 +116,9 @@ li {
 }
 
 .mobile-nav a {
-  /* color: var(--clr-dark-blue); */
-  color: var(--clr-light);
+  /* color: var(--clr-light); */
+  color: var(--clr-warm-beige-600);
+
   text-decoration: none;
   font-size: var(--size-xl);
   font-weight: bold;
@@ -125,7 +127,6 @@ li {
 
 .mobile-nav a:hover {
   color: gold;
-  /* color: var(--clr-warm-beige-400); */
 }
 
 /* BUTTONS */
@@ -142,16 +143,20 @@ li {
   text-decoration: none;
   letter-spacing: +0.05rem;
 
-  /* background-color: var(--clr-dark-blue);
-  color: var(--clr-light); */
+  background-color: var(--clr-warm-beige-400);
+  color: var(--clr-dark);
+  color: var(--clr-light);
 
-  background-color: var(--clr-light);
-  color: var(--clr-dark-blue);
+
+  /* background-color: var(--clr-dark-blue); */
+
+  /* background-color: var(--clr-light);
+  color: var(--clr-dark-blue); */
 
   padding: 0.5em 1em;
   /* border-radius: 6px; */
   transition: transform 0.3s, color 0.3s, background-color 0.3s;
-  border: 1px solid black;
+  border: 1px solid var(--clr-dark);
 }
 
 .btn:hover {

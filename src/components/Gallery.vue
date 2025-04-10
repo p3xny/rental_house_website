@@ -1,12 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 
-import benches from '@/assets/gallery/benches-fhd.png';
 import kitchen from '@/assets/gallery/kitchen01-fhd.png';
 import bathroom from '@/assets/gallery/bathroom01-fhd.png';
 import livingRoom from '@/assets/gallery/living-room01-fhd.png';
 import villageSunset from '@/assets/village-sunset.jpg';
-import tatraMountainsGreen from '@/assets/gallery/TatraMountains-Green.png';
 
 const homeGalleryImages = {
   livingRoom: { img: livingRoom, description: 'Living room image' },
@@ -43,19 +41,17 @@ const prevImg = () => {
 };
 
 const handleAnimationEnd = () => {
-  // When animation ends, update the current image and reset transition state.
   currentIndex.value = nextIndex;
   currentImg.value = nextImgPath.value;
   nextImgPath.value = null;
   isAnimating.value = false;
   slidingDirection.value = '';
 };
-// TEST
 </script>
 
 <template>
   <div class="home-gallery__welcome-section">
-    <h2 class="home-gallery__title">Coś więcej niż dom</h2>
+    <h2 class="home-gallery__title">Coś więcej niż dom. . .</h2>
   </div>
   <section class="home-gallery">
     <div class="image-wrapper">
@@ -90,6 +86,10 @@ const handleAnimationEnd = () => {
 </template>
 
 <style scoped>
+.home-gallery {
+  background-color: var(--clr-light);
+}
+
 .home-gallery__welcome-section {
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -97,17 +97,14 @@ const handleAnimationEnd = () => {
 }
 
 .home-gallery__title {
-  /* font-family: 'Playfair Display', serif; */
-
+  font-family: 'Playfair Display', serif;
   text-align: center;
   font-size: var(--size-2xl);
-
   color: var(--clr-dark-blue);
-  /* color: var(--clr-warm-beige-400); */
-  /* color: #387c44be; */
+  color: var(--clr-warm-beige-400);
+  /* color: var(--clr-slate600); */
 
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding: 0 2rem;
   text-transform: uppercase;
 }
 
@@ -135,12 +132,6 @@ const handleAnimationEnd = () => {
   width: 125px;
 }
 
-.home-gallery-btn:hover {
-  cursor: pointer;
-  color: var(--clr-gold);
-  color: gold;
-}
-
 #prev-img-btn {
   top: 0;
   left: 0;
@@ -161,22 +152,6 @@ const handleAnimationEnd = () => {
   transform: translateX(5px);
 }
 
-/* .image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 5;
-} */
-
-.home-gallery {
-  /* text-align: center; */
-  /* justify-content: center; */
-  /* background-color: var(--clr-light); */
-  /* background-color: blue; */
-}
 
 .home-gallery__img {
   width: 100vw;
@@ -184,24 +159,14 @@ const handleAnimationEnd = () => {
   object-fit: cover;
 }
 
-
-
 /* TEST */
 .image-wrapper {
-  /* position: relative; */
   overflow: hidden;
   width: 100vw;
-  /* height: 100vh; */
-  height: calc(100vh - 65px);
+  height: 100vh;
+  /* height: calc(100vh - 65px); */
 }
 
-.image-container {
-  /* position: relative; */
-  /* width: 100%;
-  height: 100%; */
-}
-
-/* Both images are absolutely positioned */
 .slide-image {
   position: absolute;
   top: 0;
@@ -211,7 +176,6 @@ const handleAnimationEnd = () => {
   object-fit: cover;
 }
 
-/* Animation definitions */
 @keyframes slideOutLeft {
   from {
     transform: translateX(0);
@@ -252,7 +216,6 @@ const handleAnimationEnd = () => {
   }
 }
 
-/* Assign animations with a duration of 0.5s */
 .slide-out-left {
   animation: slideOutLeft 0.5s forwards;
 }
@@ -269,35 +232,6 @@ const handleAnimationEnd = () => {
   animation: slideInLeft 0.5s forwards;
 }
 
-/* Other styling (welcome section, buttons, etc.) */
-.home-gallery__welcome-section {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-  background-color: var(--clr-light);
-}
-
-.home-gallery__title {
-  text-align: center;
-  font-size: var(--size-2xl);
-
-  color: var(--clr-dark-blue);
-  color: var(--clr-slate600);
-  /* color: var(--clr-rose); */
-  /* color: var(--clr-light-blue); */
-  /* color: var(--clr-warm-beige-600); */
-  /* color: burlywood; */
-  /* color: #228b22; */
-
-  padding: 0 2rem;
-  text-transform: uppercase;
-}
-
-.home-gallery {
-  /* text-align: center;
-  justify-content: center; */
-  background-color: var(--clr-light);
-  /* background-color: var(--clr-dark); */
-}
 
 #prev-img-btn {
   left: 0;
@@ -312,8 +246,8 @@ const handleAnimationEnd = () => {
   color: gold;
 }
 
-/* TEST */
 
+/* MEDIA */
 @media (min-width: 640px) {
   .home-gallery__title {
     font-size: var(--size-3xl);

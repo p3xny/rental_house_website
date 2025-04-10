@@ -1,18 +1,18 @@
 <script setup></script>
 
 <template>
-  <section id="kontakt">
+  <section>
     <div class="contact">
       <h2 class="contact__title">Wynajem już od <strong class="price">900</strong> złotych za dobę</h2>
     </div>
 
-    <div class="attractions">
+    <div id="atrakcje" class="attractions">
       <h2 class="attractions__title">
         Świetne atrakcje w pięknej okolicy
       </h2>
     </div>
 
-    <div class="faq">
+    <div id="faq" class="faq">
       <h1 class="faq__title">
         FAQ
       </h1>
@@ -68,7 +68,7 @@
       </ul>
     </div>
 
-    <footer>
+    <footer id="kontakt">
       <div class="phone">
         <a class="footer-item" href="phone">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -101,23 +101,16 @@
   flex-direction: column;
   text-align: center;
 
+  /* background-color: var(--clr-warm-beige-400); */
   background-color: var(--clr-light);
-  /* background-color: var(--clr-dark); */
-  /* background-color: var(--clr-warm-beige-800); */
-
   color: var(--clr-warm-beige-400);
-  /* color: var(--clr-warm-beige-100); */
 
-  /* color: var(--clr-light); */
-  /* color: var(--clr-light-blue); */
-  /* color: var(--clr-forest-green-400); */
 
 }
 
 .price {
   /* color: var(--clr-light); */
-  color: var(--clr-dark-blue);
-  /* color: var(--clr-warm-beige-800) */
+  color: black;
 }
 
 .contact__title {

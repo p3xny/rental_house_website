@@ -74,7 +74,6 @@ const closeViewer = () => {
         {{ console.log(index) }}
         {{ console.log(img) }}
         <div class="img-overlay">
-          <!-- <h2>Overlay Text</h2> -->
         </div>
       </div>
     </div>
@@ -108,11 +107,7 @@ const closeViewer = () => {
 
 .gallery__title {
   font-family: 'Playfair Display', serif;
-
   color: var(--clr-warm-beige-400);
-  /* color: var(--clr-dark-blue); */
-
-  /* background-color: var(--clr-warm-beige-600); */
   width: 100%;
   font-size: var(--size-8xl);
   justify-self: center;
@@ -142,8 +137,6 @@ const closeViewer = () => {
   transform: scale(1.015);
   box-shadow: 1rem 1rem 1rem 0 (0, 0, 0, 1);
   border: 5px solid white;
-  /* transform: translate(0px, -5px); */
-
 }
 
 .gallery-item.expanded {
@@ -156,7 +149,6 @@ const closeViewer = () => {
 }
 
 .gallery-item.expanded img {
-  /* transform: scale(1.1); */
   box-shadow: 8px 8px 8px 8px (0, 0, 0, 0.6);
 }
 
@@ -193,24 +185,6 @@ const closeViewer = () => {
   z-index: 10000;
 }
 
-/* #image-viewer div {
-  position: fixed;
-  display: block;
-  width: 80%;
-  animation: showImage 0.5s;
-  z-index: 10001;
-}
-
-@keyframes showImage {
-  from {
-    transform: scale(0);
-  }
-
-  to {
-    transform: scale(1);
-  }
-} */
-
 #image-viewer img {
   max-width: 1280px;
   max-height: 640px;
@@ -236,8 +210,6 @@ const closeViewer = () => {
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
   display: flex;
-  /* align-items: center;
-  justify-content: center; */
   opacity: 1;
   z-index: 9999;
 }

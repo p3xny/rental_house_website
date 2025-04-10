@@ -23,9 +23,6 @@
 }
 
 .welcome__name {
-  /* font-family: 'Playfair Display', serif; */
-
-  /* color: burlywood; */
   color: var(--clr-light);
   color: var(--clr-warm-beige-400);
 
@@ -36,12 +33,7 @@
 }
 
 .welcome__title {
-  /* font-family: 'Playfair Display', serif; */
-
-  /* color: burlywood; */
   color: var(--clr-warm-beige-400);
-  /* color: var(--clr-light); */
-
   text-transform: uppercase;
   font-size: var(--size-4xl);
   letter-spacing: -0.05rem;
@@ -51,9 +43,7 @@
 .welcome__subtitle {
   font-family: 'Playfair Display', serif;
 
-  /* color: #b9c7dc; */
   color: var(--clr-warm-beige-400);
-  /* color: burlywood; */
   color: var(--clr-slate200);
 
   font-size: var(--size-sm);

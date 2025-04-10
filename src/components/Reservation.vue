@@ -2,10 +2,8 @@
 import { ref, computed, onMounted } from 'vue';
 import { useCalendarStore } from '@/stores/calendarStore';
 import { useScreens } from 'vue-screen-utils';
-import { format } from 'date-fns';
 
 const emit = defineEmits(['toggleElement']);
-
 const handleClick = () => {
   emit('toggleElement');
 }
@@ -22,7 +20,6 @@ const tomorrow = today + 1;
 const year = date.getFullYear();
 const monthFirstLetters = months[month].substr(0, 3);
 
-const dateToday = ref(`${today} ${monthFirstLetters} ${year}`);
 const dateTomorrow = ref(`${today + 1} ${monthFirstLetters} ${year}`);
 
 
@@ -77,8 +74,6 @@ const confirmRange = () => {
   alert(`Dziękujemy za wysłania zapytania! Odpiszemy tak szybko jak to możliwe`)
 }
 
-
-const selectedDate = ref(null);
 const masks = {
   input: 'DD MMM YYYY',
 }
@@ -217,11 +212,6 @@ li {
 .rezerwacja__btn {
   background-color: var(--clr-warm-beige-400);
   color: var(--clr-dark-blue);
-
-  /* background-color: var(--clr-dark-blue);
-  color: var(--clr-light); */
-
-
   border: none;
   font-size: var(--size-base);
   font-weight: bold;
@@ -231,7 +221,6 @@ li {
 
 .rezerwacja__btn:hover {
   background-color: var(--clr-warm-beige-200);
-  /* color: var(--clr-warm-beige-200); */
   cursor: pointer;
 }
 
