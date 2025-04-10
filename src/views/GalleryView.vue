@@ -50,10 +50,17 @@ const showImage = (src) => {
 const closeViewer = () => {
   viewerVisible.value = false;
 }
-
 </script>
 
 <template>
+
+  <span id="close" @click="closeViewer" v-if="viewerVisible">&times;</span>
+  <div id="image-viewer" v-show="viewerVisible" :style="{ display: viewerVisible ? 'block' : 'none' }">
+    <img :src="viewerSrc" id="full-image">
+  </div>
+  <div class="image-viewer-overlay" v-if="viewerVisible">
+  </div>
+
   <Header :isLightTheme="true" />
   <div class="gallery__body">
     <h1 class="gallery__title">Galeria</h1>
@@ -69,11 +76,6 @@ const closeViewer = () => {
         <div class="img-overlay">
           <!-- <h2>Overlay Text</h2> -->
         </div>
-      </div>
-
-      <div id="image-viewer" v-show="viewerVisible" :style="{ display: viewerVisible ? 'block' : 'none' }">
-        <span id="close" @click="closeViewer">&times;</span>
-        <img :src="viewerSrc" id="full-image">
       </div>
     </div>
 
@@ -168,8 +170,13 @@ const closeViewer = () => {
 
 /* IMAGE VIEWER START */
 #image-viewer {
+  position: fixed;
   display: none;
-  z-index: 3002;
+  z-index: 10002;
+  top: 50%;
+  left: 50%;
+  transition: all 0.3s;
+  transform: translate(-50%, -50%);
 }
 
 #image-viewer div {
@@ -183,13 +190,15 @@ const closeViewer = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10000;
 }
 
-#image-viewer div {
+/* #image-viewer div {
+  position: fixed;
   display: block;
   width: 80%;
-  max-width: 800px;
   animation: showImage 0.5s;
+  z-index: 10001;
 }
 
 @keyframes showImage {
@@ -200,6 +209,12 @@ const closeViewer = () => {
   to {
     transform: scale(1);
   }
+} */
+
+#image-viewer img {
+  max-width: 1280px;
+  max-height: 640px;
+  animation: viewImg 0.6s;
 }
 
 #close {
@@ -208,12 +223,40 @@ const closeViewer = () => {
   right: 35px;
   color: var(--clr-light);
   font-size: 2rem;
+  z-index: 10000;
+}
+
+.image-viewer-overlay {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: flex;
+  /* align-items: center;
+  justify-content: center; */
+  opacity: 1;
+  z-index: 9999;
 }
 
 #close:hover,
-#close:focues {
+#close:focus {
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 0.6;
+}
+
+
+@keyframes viewImg {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
 
 /* IMAGE VIEWER END */

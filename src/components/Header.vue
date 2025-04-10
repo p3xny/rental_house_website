@@ -1,7 +1,9 @@
 <script setup>
 import { useCalendarStore } from '@/stores/calendarStore';
-import { ref, computed, onMounted, onBeforeUnmount, defineProps } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+
+import MobileHeader from './MobileHeader.vue';
 
 import panorama from '@/assets/panorama.jpg';
 
@@ -41,7 +43,6 @@ const handleScroll = () => {
   }
 
   scrolled.value = window.scrollY > 50;
-
   lastScrollY.value = window.scrollY;
 }
 
@@ -56,13 +57,34 @@ const linkThemeClass = computed(() => {
   if (scrolled.value) return 'link--light'
   return props.isLightTheme ? 'link--dark' : 'link--light'
 })
+
+
+const isMobileNav = ref(false);
+const animateClose = ref(false);
+
+const openMobileNav = () => {
+  isMobileNav.value = true;
+  animateClose.value = false;
+}
+
+const closeMobileNav = () => {
+  animateClose.value = true;
+}
+
+const handleAnimationEnd = () => {
+  if (animateClose.value) {
+    isMobileNav.value = false;
+    animateClose.value = false;
+  }
+}
 </script>
 
 
 <template>
+  <div id="overlay" v-if="isMobileNav" @click="closeMobileNav"></div>
   <header id="home" class="header container" :style="{ '--panorama-url': `url(${panorama})` }">
 
-    <nav :class="['navbar', { 'hidden-nav': hideNavbar, 'scrolled-nav': scrolled }]">
+    <nav v-if="!isMobileNav" :class="['navbar', { 'hidden-nav': hideNavbar, 'scrolled-nav': scrolled }]">
       <ul>
         <a :href="isHomePage ? '#home' : '/'" @click="handleHomeClick" class="header__link header__home"
           :class="linkThemeClass">
@@ -98,7 +120,7 @@ const linkThemeClass = computed(() => {
           </button>
         </li>
       </ul>
-      <button class="header__bars">
+      <button class="header__bars" @click="openMobileNav" :class="linkThemeClass">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd"
             d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
@@ -107,6 +129,9 @@ const linkThemeClass = computed(() => {
       </button>
     </nav>
   </header>
+
+  <MobileHeader v-if="isMobileNav || animateClose" :isOpen="isMobileNav" :animateClose="animateClose"
+    @animation-end="handleAnimationEnd" />
 </template>
 
 <style scoped>
@@ -157,7 +182,7 @@ const linkThemeClass = computed(() => {
 }
 
 .header__bars {
-  color: var(--clr-light);
+  /* color: var(--clr-light); */
   background: none;
   border: none;
   width: var(--size-6xl);
@@ -179,30 +204,36 @@ const linkThemeClass = computed(() => {
   gap: 0.2em;
   color: var(--clr-light);
   text-decoration: none;
-  font-size: var(--size-xxs);
+  font-size: var(--size-base);
   font-weight: 600;
 }
 
 .header__home svg {
-  width: var(--size-lg);
-  height: var(--size-lg);
+  width: var(--size-2xl);
+  height: var(--size-2xl);
 }
 
-
 .header__link {
-  font-size: var(--size-xs);
+  font-size: var(--size-base);
   text-decoration: none;
   font-weight: 600;
   letter-spacing: -0.05em;
   transition: color 0.3s;
 }
 
-
 .header__link.link--light {
   color: var(--clr-light);
 }
 
 .header__link.link--dark {
+  color: var(--clr-dark-blue);
+}
+
+.header__bars.link--light {
+  color: var(--clr-light);
+}
+
+.header__bars.link--dark {
   color: var(--clr-dark-blue);
 }
 
@@ -267,41 +298,9 @@ const linkThemeClass = computed(() => {
 
 
 
-@media (min-width: 475px) {
-  .header__menu {
-    gap: 1.25em;
-  }
+@media (min-width: 475px) {}
 
-  .header__btn {
-    height: 3rem;
-    font-size: var(--size-xxs);
-  }
-}
-
-@media (min-width: 640px) {
-  .header__menu {
-    gap: 1.5em;
-  }
-
-
-  .header__home {
-    font-size: var(--size-xs);
-  }
-
-  .header__home svg {
-    width: var(--size-lg);
-    height: var(--size-lg);
-  }
-
-  .header__link {
-    font-size: var(--size-xs);
-  }
-
-  .header__btn {
-    height: 4rem;
-    font-size: var(--size-xs);
-  }
-}
+@media (min-width: 640px) {}
 
 @media (min-width: 768px) {
   .header__menu {

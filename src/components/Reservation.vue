@@ -18,6 +18,7 @@ const months = ['Styczeń', 'Luty', 'Marzec',
 const date = new Date();
 const month = date.getMonth();
 const today = date.getDate();
+const tomorrow = today + 1;
 const year = date.getFullYear();
 const monthFirstLetters = months[month].substr(0, 3);
 
@@ -94,6 +95,7 @@ const formattedStartDate = computed(() => {
   }
 });
 
+
 const formattedEndDate = computed(() => {
   const { start, end } = dateRange.value;
   if (start && end) {
@@ -102,7 +104,16 @@ const formattedEndDate = computed(() => {
       month: 'short',
       year: 'numeric',
     });
-    return endDate;
+
+    const replacement = tomorrow < 10 ? '0' + tomorrow : tomorrow.toString();
+    const endDateFinal = endDate.replace(/^\d{1,2}/, replacement);
+    const endDateDay = endDate.substring(0, 2);
+
+    if (endDateDay < tomorrow) {
+      return endDateFinal;
+    } else {
+      return endDate;
+    }
   }
 });
 

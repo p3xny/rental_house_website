@@ -1,11 +1,14 @@
 <script setup>
+import { ref } from 'vue';
 
 import Header from '../components/Header.vue';
 import Welcome from '../components/Welcome.vue';
 import Reservation from '@/components/Reservation.vue';
 import About from '../components/About.vue';
 import Gallery from '../components/Gallery.vue';
+import Attractions from '@/components/Attractions.vue';
 import Contact from '../components/Contact.vue';
+
 </script>
 
 
@@ -31,7 +34,7 @@ import Contact from '../components/Contact.vue';
         <Reservation />
         <About />
         <Gallery />
-        <section></section>
+        <!-- <Attractions /> -->
         <Contact />
       </main>
     </div>
@@ -55,7 +58,8 @@ import Contact from '../components/Contact.vue';
 
 .calendar-container {
   position: fixed;
-  grid-template-columns: 500px 500px;
+  /* grid-template-columns: 500px 500px; */
+  grid-template-rows: 2;
   gap: 20px;
   top: 50%;
   left: 50%;
@@ -88,6 +92,7 @@ import Contact from '../components/Contact.vue';
   min-width: 180px;
   background-color: var(--clr-light);
   border-radius: 18px;
+  grid-row: 1 / 2;
 }
 
 @media (min-width: 475px) {

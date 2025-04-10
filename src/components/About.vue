@@ -23,13 +23,12 @@ import tatraMountainsClean from '@/assets/gallery/TatraMountains-Clean.jpg';
       </p>
     </div>
     <br class="img-separator">
+    <!-- <br> -->
     <div class="o-nas__img-wrapper gallery">
       <img class="o-nas__img" :src="tatraMountainsClean" alt="Tatra Mountains panorama view from balcony">
-      <!-- <img class="o-nas__img" :src="tatraMountainsHousePanorama" alt=""> -->
-      <!-- <img class="o-nas__img" :src="purpleSky" alt=""> -->
       <img class="o-nas__img" :src="TatraMountainsGreen" alt="Tatra Mountains panorama view green grass and coffee">
     </div>
-    <br>
+
   </section>
 </template>
 
@@ -82,15 +81,13 @@ br {
 
 .o-nas {
   display: flex;
-  width: 100%;
+  /* width: 100%; */
   align-items: center;
   flex-direction: column;
 
   position: relative;
-
-  /* background-color: #FBE9D0; */
-  /* background-color: var(--clr-sage-green-500); */
   background-color: var(--clr-dark-blue);
+  /* background: linear-gradient(155deg, #052f4a, #052f4a, #228b22); */
 
   text-align: left;
 
@@ -149,7 +146,7 @@ br {
 
   .o-nas__description {
     max-width: 80ch;
-    font-size: var(--size-base);
+    font-size: var(--size-lg);
   }
 }
 
@@ -199,7 +196,7 @@ br {
 
   .o-nas__img {
     width: 60rem;
-    margin-right: 2rem;
+    margin-right: 3rem;
   }
 
   .o-nas__title {
@@ -212,6 +209,10 @@ br {
 }
 
 @media (min-width: 1675px) {
+  .o-nas__description {
+    max-width: 80ch;
+  }
+
   .o-nas__img {
     width: 63rem;
   }
@@ -234,6 +235,12 @@ br {
 
   .o-nas__description {
     font-size: var(--size-2xl);
+  }
+}
+
+@media (min-width: 1986px) {
+  .o-nas__title {
+    padding-right: 0.5rem;
   }
 }
 
