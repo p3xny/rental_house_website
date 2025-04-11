@@ -1,8 +1,15 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { onMounted } from 'vue';
+import axios from 'axios';
 
-onMounted(() => {
+import { RouterLink, RouterView } from 'vue-router'
+import { ref, onMounted } from 'vue';
+
+const message = ref('');
+
+onMounted(async () => {
+  // const response = await axios.get('https://127.0.0.1:8000/api/data');
+  const response = await axios.get('/api/data');
+  message.value = response.data.message;
 
 });
 </script>

@@ -110,7 +110,8 @@
 
 .price {
   /* color: var(--clr-light); */
-  color: black;
+  color: var(--clr-dark-blue);
+  text-decoration: underline var(--clr-rose);
 }
 
 .contact__title {

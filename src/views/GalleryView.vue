@@ -58,7 +58,7 @@ const closeViewer = () => {
   <div id="image-viewer" v-show="viewerVisible" :style="{ display: viewerVisible ? 'block' : 'none' }">
     <img :src="viewerSrc" id="full-image">
   </div>
-  <div class="image-viewer-overlay" v-if="viewerVisible">
+  <div class="image-viewer-overlay" v-if="viewerVisible" @click="closeViewer">
   </div>
 
   <Header :isLightTheme="true" />

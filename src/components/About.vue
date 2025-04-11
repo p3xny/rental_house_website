@@ -49,7 +49,7 @@ import tatraMountainsClean from '@/assets/gallery/TatraMountains-Clean.jpg';
   grid-area: 1/1;
   /* width: 350px; */
   /* control the size */
-  aspect-ratio: 1;
+  aspect-ratio: 16 / 10;
   cursor: pointer;
   transition: .4s .1s;
   border-radius: 18px;
