@@ -35,7 +35,7 @@ import Contact from '../components/Contact.vue';
         <About />
         <Gallery />
         <!-- <Attractions /> -->
-        <Contact />
+        <!-- <Contact /> -->
       </main>
     </div>
   </body>

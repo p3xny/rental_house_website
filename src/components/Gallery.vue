@@ -88,6 +88,7 @@ const handleAnimationEnd = () => {
 <style scoped>
 .home-gallery {
   background-color: var(--clr-light);
+  background-color: var(--clr-dark-blue);
 }
 
 .home-gallery__welcome-section {

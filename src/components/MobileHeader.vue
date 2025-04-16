@@ -48,12 +48,12 @@ const animationClass = computed(() => {
       <li>
         <a href="/galeria">Galeria</a>
       </li>
-      <li>
+      <!-- <li>
         <a href="#atrakcje">Atrakcje</a>
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <a href="#faq">FAQ</a>
-      </li>
+      </li> -->
       <li>
         <a href="#kontakt">Kontakt</a>
       </li>
@@ -67,7 +67,7 @@ const animationClass = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 80vh;
+  height: 42vh;
   /* width: 65vw; */
   /* width: 300px; */
   width: 100vw;
@@ -117,7 +117,8 @@ li {
 
 .mobile-nav a {
   /* color: var(--clr-light); */
-  color: var(--clr-warm-beige-600);
+  /* color: var(--clr-warm-beige-600); */
+  color: var(--clr-dark-blue);
 
   text-decoration: none;
   font-size: var(--size-xl);
@@ -143,12 +144,12 @@ li {
   text-decoration: none;
   letter-spacing: +0.05rem;
 
-  background-color: var(--clr-warm-beige-400);
+  /* background-color: var(--clr-warm-beige-400); */
   color: var(--clr-dark);
   color: var(--clr-light);
 
 
-  /* background-color: var(--clr-dark-blue); */
+  background-color: var(--clr-dark-blue);
 
   /* background-color: var(--clr-light);
   color: var(--clr-dark-blue); */

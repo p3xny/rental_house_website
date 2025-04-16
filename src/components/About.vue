@@ -11,7 +11,10 @@ import tatraMountainsClean from '@/assets/gallery/TatraMountains-Clean.jpg';
   <section class="o-nas section-wide" id="o-nas">
     <div class="o-nas__content">
       <h2 class="o-nas__title">Dom z widokiem na panoramę Tatr</h2>
-      <p class="o-nas__description">Domek wypoczynkowy z pięknym widokiem na
+      <p class="o-nas__description">
+        Zatrać się w pięknych Tatrach niezależnie od pory roku.
+      </p>
+      <!-- <p class="o-nas__description">Domek wypoczynkowy z pięknym widokiem na
         <strong>panoramę Tatr</strong>.
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea ex dignissimos maiores quis expedita officia
         fugiat ad consectetur libero nostrum vel aperiam, ipsum doloremque, numquam incidunt rerum molestias quod
@@ -20,7 +23,7 @@ import tatraMountainsClean from '@/assets/gallery/TatraMountains-Clean.jpg';
         fuga voluptates praesentium quibusdam dolores dignissimos laboriosam impedit id ab. Neque dolores
         quibusdam
         alias eligendi earum veniam.
-      </p>
+      </p> -->
     </div>
     <br class="img-separator">
     <!-- <br> -->

@@ -4,6 +4,8 @@ import axios from 'axios';
 import { RouterLink, RouterView } from 'vue-router'
 import { ref, onMounted } from 'vue';
 
+import Footer from '@/components/Footer.vue'
+
 const message = ref('');
 
 onMounted(async () => {
@@ -16,6 +18,7 @@ onMounted(async () => {
 
 <template>
   <RouterView />
+  <Footer />
 </template>
 
 <style scoped></style>
