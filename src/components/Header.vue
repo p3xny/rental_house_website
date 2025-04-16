@@ -106,14 +106,14 @@ const handleAnimationEnd = () => {
         <li>
           <a href="/galeria" class="header__link" :class="linkThemeClass">Galeria</a>
         </li>
-        <li>
+        <!-- <li>
           <a href="#atrakcje" class="header__link" :class="linkThemeClass">Atrakcje</a>
-        </li>
-        <li>
+        </li> -->
+        <!-- <li>
           <a :href="isHomePage ? '#faq' : '/#faq'" class="header__link" :class="linkThemeClass">FAQ</a>
-        </li>
+        </li> -->
         <li>
-          <a :href="isHomePage ? '#kontakt' : '/#kontakt'" class="header__link" :class="linkThemeClass">Kontakt</a>
+          <a :href="isHomePage ? '#kontakt' : '#kontakt'" class="header__link" :class="linkThemeClass">Kontakt</a>
         </li>
         <li class="header__line"></li>
         <li>

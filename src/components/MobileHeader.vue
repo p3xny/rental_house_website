@@ -20,21 +20,26 @@ const animationClass = computed(() => {
   return '';
 });
 
+const openGoogleMaps = () => {
+  window.open('https://www.google.com/maps/place/Domek+Panorama+Rzepiska/@49.358264,20.160799,17z/data=!3m1!4b1!4m6!3m5!1s0x4715f702446785ad:0xc02c34230f66dfb!8m2!3d49.358264!4d20.160799!16s%2Fg%2F1hhhgzcty?entry=ttu&g_ep=EgoyMDI1MDQxMy4wIKXMDSoASAFQAw%3D%3D');
+}
+
+const callPhone = () => {
+  window.location.href = 'tel:+48692434000';
+}
 </script>
 
 <template>
   <div id="mobile-nav" class="mobile-nav" :class="animationClass" @animationend="emit('animationEnd')">
     <div class="button-grid">
-      <button id="phoneCallButton" class="btn header__btn" style="text-transform: uppercase;"
-        @click="calendarStore.toggleCalendar()">
+      <button id="phoneCallButton" class="btn header__btn" style="text-transform: uppercase;" @click="callPhone">
         Zadzwoń
       </button>
       <button id="reservationButton" class="btn header__btn" style="text-transform: uppercase;"
         @click="calendarStore.toggleCalendar()">
         Rezerwacja
       </button>
-      <button id="mapsButton" class="btn header__btn" style="text-transform: uppercase;"
-        @click="calendarStore.toggleCalendar()">
+      <button id="mapsButton" class="btn header__btn" style="text-transform: uppercase;" @click="openGoogleMaps">
         Dojazd
       </button>
     </div>
@@ -67,7 +72,7 @@ const animationClass = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 42vh;
+  height: 400px;
   /* width: 65vw; */
   /* width: 300px; */
   width: 100vw;
@@ -178,24 +183,53 @@ li {
 }
 
 /* BUTTON END */
-@media (min-width: 475px) {
+@media (min-height: 600px) {
   /* .mobile-nav {
     width: 380px;
   } */
 }
 
 
-@media (min-width: 550px) {
-  /* .mobile-nav {
-    width: 450px;
-  } */
+@media (min-height: 750px) {
+  .mobile-nav {
+    height: 500px;
+  }
+
+  .mobile-nav a {
+    font-size: var(--size-2xl);
+  }
+
+  li {
+    margin-top: 1.4rem;
+  }
+
+  .header__btn {
+    height: 6rem;
+    font-size: var(--size-lg);
+  }
+
 }
 
 
 
-@media (min-width: 640px) {
-  /* .mobile-nav {
-    width: 500px;
-  } */
+@media (min-height: 900px) {
+  .mobile-nav {
+    height: 600px;
+  }
+
+  .mobile-nav a {
+    font-size: var(--size-3xl);
+  }
+
+  .header__btn {
+    height: 7rem;
+    font-size: var(--size-xl);
+  }
+
+
+  li {
+    margin-top: 1.8rem;
+  }
+
 }
 </style>
