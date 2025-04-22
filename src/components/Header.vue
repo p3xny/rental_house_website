@@ -104,7 +104,7 @@ const handleAnimationEnd = () => {
           <a :href="isHomePage ? '#o-nas' : '/#o-nas'" class="header__link" :class="linkThemeClass">O nas</a>
         </li>
         <li>
-          <a href="/galeria" class="header__link" :class="linkThemeClass">Galeria</a>
+          <a :href="isHomePage ? '/galeria' : '#galeria'" class="header__link" :class="linkThemeClass">Galeria</a>
         </li>
         <!-- <li>
           <a href="#atrakcje" class="header__link" :class="linkThemeClass">Atrakcje</a>

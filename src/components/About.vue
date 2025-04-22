@@ -66,6 +66,18 @@ import tatraMountainsClean from '@/assets/gallery/TatraMountains-Clean.jpg';
   clip-path: polygon(100% 100%, 100% calc(0% - var(--_p)), calc(0% - var(--_p)) 100%)
 }
 
+
+/* TESTING */
+.gallery>img:first-child {
+  clip-path: polygon(0 0, calc(100% + var(--_p)) 0, 0 calc(100% + var(--_p)))
+}
+
+.gallery>img:last-child {
+  clip-path: polygon(100% 100%, 100% calc(0% - var(--_p)), calc(0% - var(--_p)) 100%)
+}
+
+/* TESTING END */
+
 .gallery:hover>img:last-child,
 .gallery:hover>img:first-child:hover {
   --_p: calc(50% - var(--g));

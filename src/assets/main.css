@@ -84,13 +84,13 @@ a {
 }
 
 .section {
-  /* margin-top: 5rem; */
-  padding-bottom: 5rem;
+  /* margin-top: 10rem; */
+  padding-bottom: 3rem;
 }
 
 .section-wide {
   /* margin-top: 5rem; */
-  padding-bottom: 5rem;
+  padding-bottom: 3rem;
 }
 
 #overlay {
@@ -120,12 +120,15 @@ a {
   .container {
     max-width: 768px;
   }
+
 }
 
 @media (min-width: 1024px) {
   .container {
     max-width: 1024px;
   }
+
+
 
   .section {
     margin-top: 5rem;
@@ -142,6 +145,8 @@ a {
   .container {
     max-width: 1280px;
   }
+
+
 }
 
 

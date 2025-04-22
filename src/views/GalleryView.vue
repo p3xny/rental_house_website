@@ -59,10 +59,13 @@ const closeViewer = () => {
     <img :src="viewerSrc" id="full-image">
   </div>
   <div class="image-viewer-overlay" v-if="viewerVisible" @click="closeViewer">
+    <button
+      style="width: 3rem; height: 100%; background-color: black; position: absolute; top:0; left:0; color: white; font-size: var(--size-3xl);">L</button>
+
   </div>
 
   <Header :isLightTheme="true" />
-  <div class="gallery__body">
+  <div class="gallery__body" id="galeria">
     <h1 class="gallery__title">Galeria</h1>
     <div class="gallery__img-grid">
       <div v-for="(img, index) in imgs" :key="index" style="
@@ -71,8 +74,6 @@ const closeViewer = () => {
         class="gallery-item image" @mouseenter="" @mouseleave="" :id="`img-${index}`" @click="showImage(img)">
         <img :src="img" alt="image" @mouseenter="isHovered = true" @mouseleave="isHovered = false"
           :style="elementStyle">
-        {{ console.log(index) }}
-        {{ console.log(img) }}
         <div class="img-overlay">
         </div>
       </div>
@@ -169,6 +170,7 @@ const closeViewer = () => {
   left: 50%;
   transition: all 0.3s;
   transform: translate(-50%, -50%);
+  transform-origin: center;
 }
 
 #image-viewer div {
@@ -177,7 +179,7 @@ const closeViewer = () => {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: black;
   overflow: auto;
   display: flex;
   justify-content: center;
@@ -186,8 +188,8 @@ const closeViewer = () => {
 }
 
 #image-viewer img {
-  max-width: 1280px;
-  max-height: 640px;
+  max-width: 90vw;
+  max-height: 90vh;
   animation: viewImg 0.6s;
 }
 
