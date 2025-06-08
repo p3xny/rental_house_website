@@ -6,9 +6,11 @@ import Welcome from '../components/Welcome.vue';
 import Reservation from '@/components/Reservation.vue';
 import About from '../components/About.vue';
 import Gallery from '../components/Gallery.vue';
+import ReservationForm from '../components/ReservationForm.vue';
+
+
 import Attractions from '@/components/Attractions.vue';
 import Contact from '../components/Contact.vue';
-
 </script>
 
 

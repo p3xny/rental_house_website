@@ -3,13 +3,15 @@ import { ref, computed, onMounted } from 'vue';
 
 import Header from '@/components/Header.vue';
 
+import table01 from '@/assets/gallery/table-01.jpg';
 import livingRoom01 from '@/assets/gallery/living-room01.jpg';
 import livingRoom02 from '@/assets/gallery/living-room02.jpg';
-import livingRoom03 from '@/assets/gallery/living-room03.jpg';
+// import livingRoom03 from '@/assets/gallery/living-room03.jpg';
 import kitchen01 from '@/assets/gallery/kitchen01.jpg';
 import bedroom01 from '@/assets/gallery/bedroom01.jpg';
 import bedroom02 from '@/assets/gallery/bedroom02.jpg';
 import benches from '@/assets/gallery/benches.jpg';
+import balcony01 from '@/assets/gallery/balcony01.jpg';
 
 import tatraMountains from '@/assets/gallery/TatraMountains.jpg';
 import tatraMountainsGreen from '@/assets/gallery/TatraMountains-Green.jpg';
@@ -22,7 +24,7 @@ import tatraMountainsClouds from '@/assets/gallery/TatraMountains-Clouds.jpg';
 import balconyPurpleSky from '@/assets/gallery/purple-sky.jpg';
 import balconySunset from '@/assets/gallery/balcony-sunset.jpg';
 
-const imgs = [benches, bedroom01, bedroom02, kitchen01, livingRoom01, tatraMountainsClouds, balconySunset, livingRoom02, livingRoom03,
+const imgs = [livingRoom02, bedroom01, bedroom02, kitchen01, livingRoom01, tatraMountainsClouds, balconySunset, balcony01, table01,
   balconyPurpleSky, tatraMountains, tatraMountainsClean, tatraMountainsGreen,
   tatraMountainsCleanOrange, tatraMountainsHousePanorama,
 ];
@@ -194,7 +196,7 @@ const closeViewer = () => {
 }
 
 #close {
-  position: absolute;
+  position: fixed;
   top: 15px;
   right: 35px;
   color: var(--clr-light);
@@ -209,7 +211,7 @@ const closeViewer = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 1);
   color: white;
   display: flex;
   opacity: 1;

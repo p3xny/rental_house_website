@@ -1,13 +1,11 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, EmailStr
-
-from datetime import date
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+from pydantic import BaseModel, EmailStr
+from datetime import date
+from typing import List
 
 app = FastAPI()
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,7 +17,7 @@ app.add_middleware(
 conf = ConnectionConfig(
     MAIL_USERNAME="platynski@gmail.com",
     MAIL_PASSWORD="gaxy kybk ermd sxjn",
-    MAIL_FROM="platynski@gmail.com",
+    MAIL_FROM=f"imaginative.input@gmail.com",
     MAIL_PORT=587,
     MAIL_SERVER="smtp.gmail.com",
     MAIL_STARTTLS=True,
@@ -29,21 +27,20 @@ conf = ConnectionConfig(
 )
 
 
-class RequestPayload(BaseModel):
-    email: EmailStr
-    message: str
+class AvailabilityRequest(BaseModel):
     startDate: date
     endDate: date
     people: int
+    email: EmailStr
 
 
 async def send_notification(client_email: str, client_name: str, message_content: str):
     fm = FastMail(conf)
 
     message = MessageSchema(
-        subject="Rezerwacja",
+        subject="Rezerwacja!",
         recipients=["platynski@gmail.com"],
-        body=f"Wiadomość od {client_email}:\n\n{message_content}",
+        body=f"Message from {client_name} ({client_email}):\n\n{message_content}",
         subtype="plain",
         headers={
             "From": client_email,
@@ -54,14 +51,9 @@ async def send_notification(client_email: str, client_name: str, message_content
     await fm.send_message(message)
 
 
-@app.get("/api/data")
-def get_date():
-    return {"message", "Hello from FastAPI!"}
-
-
-@app.post("/api/send-message")
-async def send_message(payload: RequestPayload):
-    if payload.startDate >= payload.endDate:
+@app.get("/check-availability")
+async def check_availability(request: AvailabilityRequest):
+    if request.startDate >= request.endDate:
         raise HTTPException(
             status_code=400, detail="End date must be after start date."
         )
@@ -70,22 +62,11 @@ async def send_message(payload: RequestPayload):
 
     if is_available:
         await send_notification(
-            client_email=payload.email,
-            client_name="Imię klienta",
-            message_content=f"Liczba osób: {payload.people}\nOd dnia: {payload.startDate}\nDo dnia: {payload.endDate}\n\n{payload.message}",
+            client_email=request.email,
+            client_name="Client Name",
+            message_content=f"Availability request for {request.startDate} to {request.endDate} with {request.people} people.",
         )
 
-        return {"message": "Dziękujemy za złożenie rezerwacji, odezwiemy się wkrótce!"}
+        return {"message": "The house is available. We will contact you shortly!"}
     else:
-        return {
-            "message": "Niestety dom nie jest dostępny w tym terminie. W razie pytań prosimy dzwonić na numer xxx-xxx-xxx"
-        }
-
-
-app.mount("/", StaticFiles(directory="dist", html=True), name="static")
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+        return {"message": "The house is not available for the selected dates."}

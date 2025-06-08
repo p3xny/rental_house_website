@@ -78,6 +78,73 @@ const masks = {
   input: 'DD MMM YYYY',
 }
 
+
+// RESERVATION FORM
+// const endDate = new Date().toISOString().split('T')[0];
+// const tomorrowDate = new Date(date);
+// tomorrowDate.setDate(today.getDate() + 1);
+// tomorrowDate.toISOString().split('T')[0];
+// console.log(endDate);
+// console.log(tomorrowDate);
+console.log(tomorrow)
+
+
+const formVisible = ref(false)
+
+const toggleReservationForm = () => {
+  const element = document.getElementById('reservation-final-form');
+  element.style.display = 'block';
+  formVisible.value = !formVisible.value;
+};
+
+const closeForm = () => {
+  formVisible.value = false;
+}
+
+const sendReservationRequest = async () => {
+  const email = document.querySelector('.email-input').value.trim();
+  const message = document.querySelector('.message-input').value.trim();
+
+  if (!email) {
+    alert('Proszę podać adres email, na który możemy się odezwać :)');
+    return;
+  }
+
+  const payload = {
+    email,
+    message,
+    startDate: dateRange.value.start.toISOString().split('T')[0],
+    endDate: dateRange.value.end.toISOString().split('T')[0],
+    people: peopleCount.value,
+  };
+
+  try {
+    const response = await fetch('http://localhost:8000/api/send-message', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      alert('Wiadomość została wysłana pomyślnie: ' + result.message);
+      closeForm();
+    } else {
+      const error = await response.json();
+      alert('Błąd podczas wysyłania wiadomości: ' + (error.detail || 'Nieznany błąd.'));
+    }
+  } catch (err) {
+    console.error('Błąd sieci:', err);
+    alert('Nie udało się wysłać wiadomości z powodu błędu sieci.');
+  }
+};
+
+
+// RESERVATION FORM^
+
+
 const formattedStartDate = computed(() => {
   const { start, end } = dateRange.value;
   if (start && end) {
@@ -112,23 +179,62 @@ const formattedEndDate = computed(() => {
   }
 });
 
+
 onMounted(() => {
   const selectedStartDate = formattedStartDate.value.substr(0, 2);
   const selectedEndDate = formattedEndDate.value.substr(0, 2);
   const startDateNumber = Number(selectedStartDate);
   const endDateNumber = Number(selectedEndDate);
   console.log(`${typeof startDateNumber}: ${startDateNumber}, nDay: ${endDateNumber}... 1: ${typeof 1}`);
+
+  // RESERVATION FORM
+  const textarea = document.getElementById('message-input');
+  const charCount = document.getElementById('charCount');
+
+  textarea.addEventListener('input', () => {
+    const currentLength = textarea.value.length;
+    const maxLength = textarea.getAttribute('maxlength');
+    charCount.textContent = `${currentLength}/${maxLength} znaków`;
+
+    if (parseInt(currentLength, 10) === parseInt(maxLength, 10)) {
+      charCount.style.color = 'yellow';
+      charCount.textContent = `${currentLength}/${maxLength} znaków - osiągnięto limit znaków.`;
+    } else {
+      charCount.style.color = 'white';
+      charCount.textContent = `${currentLength}/${maxLength} znaków`;
+    };
+  })
+  // RESERVATION FORM^
 });
+
 </script>
 
 <template>
   <div id="overlay" v-if="calendarStore.isCalendarVisible" @click="calendarStore.toggleCalendar()"></div>
+  <div id="overlay" v-else-if="formVisible" @click="toggleReservationForm()"></div>
 
   <div id="calendar-container" class="calendar-container" v-if="calendarStore.isCalendarVisible">
     <VDatePicker :min-date="new Date()" :columns="columns" :attributes="attrs" :expanded="expanded" :locale="userLocale"
       v-model.range="dateRange" :masks="masks" class="my-custom-datepicker" />
   </div>
 
+  <div class="reservation-final-form" id="reservation-final-form" v-show="formVisible"
+    :style="{ display: formVisible ? 'block' : 'none' }">
+    <div class="email-field">
+      <span><strong>e-mail:</strong></span>
+      <input class="email-input" type="text">
+    </div>
+
+    <div class="message-field">
+      <span>Jakieś pytania? Napisz wiadomość!</span>
+      <span><strong>Wiadomość:</strong></span>
+      <textarea class="message-input" id="message-input" placeholder="Napisz wiadomość..." maxlength="500"></textarea>
+      <p id="charCount">0/500 znaków</p>
+      <!-- <span>Zaznaczona wcześniej data do rezerwacji będzie wysłana do nas w wiadomości automatycznej</span> -->
+
+    </div>
+    <button class="send-btn" @click="sendReservationRequest()">Wyślij</button>
+  </div>
 
   <section class="rezerwacja section">
     <div class="rezerwacja__form" id="formCalendar">
@@ -153,7 +259,7 @@ onMounted(() => {
           </ul>
         </div>
       </div>
-      <button class="rezerwacja__btn" @click="calendarStore.toggleCalendar()">Sprawdź dostępność</button>
+      <button class="rezerwacja__btn" @click="toggleReservationForm()">Sprawdź dostępność</button>
     </div>
   </section>
 </template>
@@ -174,7 +280,7 @@ li {
 .rezerwacja {
   display: flex;
   text-transform: uppercase;
-  color: var(--clr-dark-blue);
+  color: var(--clr-dark);
   justify-content: center;
 }
 
@@ -211,7 +317,8 @@ li {
 
 .rezerwacja__btn {
   background-color: var(--clr-warm-beige-400);
-  color: var(--clr-dark-blue);
+  /* color: var(--clr-dark-blue); */
+  color: var(--clr-dark);
   border: none;
   font-size: var(--size-base);
   font-weight: bold;
@@ -220,7 +327,7 @@ li {
 }
 
 .rezerwacja__btn:hover {
-  background-color: var(--clr-warm-beige-200);
+  background-color: var(--clr-warm-beige-600);
   cursor: pointer;
 }
 
@@ -273,9 +380,128 @@ li {
   display: none;
 }
 
+/* RESERVATION POP UP FORM */
+.reservation-final-form {
+  position: fixed;
+  width: 100%;
+  height: 500px;
+  display: none;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background-color: white;
+  color: var(--clr-dark-blue);
+
+
+  background-color: var(--clr-dark-blue);
+  color: white;
+
+  z-index: 10000;
+
+  /* border-radius: 12px; */
+
+  font-size: large;
+  letter-spacing: +0.05rem;
+}
+
+.email-field {
+  display: flex;
+  flex-direction: row;
+  margin-left: 2rem;
+  margin-top: 2rem;
+}
+
+.email-input {
+  margin-left: 0.5rem;
+  border-radius: 6px;
+  border: solid 1px var(--clr-dark-blue);
+  background-color: var(--clr-light);
+  color: var(--clr-dark);
+
+  font-weight: 500;
+  font-size: medium;
+}
+
+.email-input:focus {
+  background-color: var(--clr-warm-beige-200);
+}
+
+.message-field {
+  margin-top: 2rem;
+  margin-left: 2rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.message-input {
+  height: 17.5rem;
+  width: calc(100% - 2rem);
+
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #333;
+  border-radius: 6px;
+  resize: none;
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.send-btn {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin-top: 2rem;
+  margin-bottom: 0.1rem;
+
+  text-transform: uppercase;
+  letter-spacing: +0.05rem;
+
+  height: 3rem;
+  width: 8rem;
+
+  font: var(--size-xl);
+  font-weight: 600;
+
+
+  color: var(--clr-dark-blue);
+  background-color: var(--clr-light);
+
+  /* color: var(--clr-dark);
+  background-color: var(--clr-warm-beige-400); */
+
+  transition: transform 0.3s, color 0.3s, background-color 0.3s;
+  border: none;
+  border-radius: 3px;
+
+  text-align: center;
+  justify-content: center;
+}
+
+.send-btn:hover {
+  /* background-color: var(--clr-warm-beige-600); */
+  background-color: var(--clr-warm-beige-200);
+  cursor: pointer;
+}
+
+
+/* RESERVATION POP UP FORM END */
+
 @media (min-width: 475px) {
   .rezerwacja__form {
     width: 400px;
+  }
+
+  .reservation-final-form {
+    width: 94%;
+    height: 60%;
+    border-radius: 6px;
+    box-shadow: 1rem rgba(0, 0, 0, 1);
   }
 }
 
@@ -290,7 +516,18 @@ li {
   }
 }
 
-@media (min-width: 768px) {}
+@media (min-width: 768px) {
+  .message-input {
+    width: 600px;
+    font-size: 1.2rem;
+  }
+
+  .reservation-final-form {
+    width: 700px;
+    height: 520px;
+  }
+
+}
 
 @media (min-width: 1024px) {
   .rezerwacja__form {
@@ -308,6 +545,15 @@ li {
 
   .guest-li {
     width: 98.588px;
+  }
+
+  .message-input {
+    width: 650px;
+  }
+
+  .reservation-final-form {
+    width: 800px;
+    height: 500px;
   }
 
 }
