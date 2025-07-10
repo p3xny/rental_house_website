@@ -6,8 +6,8 @@ import Header from '@/components/Header.vue';
 import table01 from '@/assets/gallery/table-01.jpg';
 import livingRoom01 from '@/assets/gallery/living-room01.jpg';
 import livingRoom02 from '@/assets/gallery/living-room02.jpg';
-// import livingRoom03 from '@/assets/gallery/living-room03.jpg';
 import kitchen01 from '@/assets/gallery/kitchen01.jpg';
+import kitchen02 from '@/assets/gallery/kitchen02.jpg';
 import bedroom01 from '@/assets/gallery/bedroom01.jpg';
 import bedroom02 from '@/assets/gallery/bedroom02.jpg';
 import benches from '@/assets/gallery/benches.jpg';
@@ -24,10 +24,21 @@ import tatraMountainsClouds from '@/assets/gallery/TatraMountains-Clouds.jpg';
 import balconyPurpleSky from '@/assets/gallery/purple-sky.jpg';
 import balconySunset from '@/assets/gallery/balcony-sunset.jpg';
 
-const imgs = [livingRoom02, bedroom01, bedroom02, kitchen01, livingRoom01, tatraMountainsClouds, balconySunset, balcony01, table01,
-  balconyPurpleSky, tatraMountains, tatraMountainsClean, tatraMountainsGreen,
-  tatraMountainsCleanOrange, tatraMountainsHousePanorama,
+const imgs = [
+  tatraMountainsCleanOrange,
+  table01, kitchen02, balcony01,
+  livingRoom02,
+  tatraMountains, tatraMountainsGreen, tatraMountainsClouds, tatraMountainsClean,
+  balconySunset, balconyPurpleSky,
+  benches, tatraMountainsHousePanorama
 ];
+
+// tatraMountainsHousePanorama
+// livingRoom01, bedroom02,
+
+// bedroom01
+// livingRoom02
+// tatraMountainsCleanOrange
 
 const isHovered = ref(false);
 
@@ -153,6 +164,7 @@ const closeViewer = () => {
 
 .gallery-item.expanded img {
   box-shadow: 8px 8px 8px 8px (0, 0, 0, 0.6);
+  /* height: auto; */
 }
 
 .gallery__img-grid {
@@ -164,6 +176,22 @@ const closeViewer = () => {
 }
 
 /* IMAGE VIEWER START */
+/* #full-image {
+  width: 100%;
+  height: auto;
+} */
+
+/* #image-viewer {
+  position: fixed;
+  display: none;
+  z-index: 10002;
+  top: 50%;
+  left: 50%;
+  transition: all 0.3s;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+} */
+
 #image-viewer {
   position: fixed;
   display: none;
@@ -175,7 +203,7 @@ const closeViewer = () => {
   transform-origin: center;
 }
 
-#image-viewer div {
+/* #image-viewer div {
   position: fixed;
   left: 0;
   top: 0;
@@ -187,13 +215,50 @@ const closeViewer = () => {
   justify-content: center;
   align-items: center;
   z-index: 10000;
-}
+} */
+
+/* #image-viewer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+} */
+
+/* #image-viewer img {
+  width: 100%;
+  height: auto;
+  max-height: 90vh;
+  max-width: 100%;
+  object-fit: contain;
+} */
 
 #image-viewer img {
-  max-width: 90vw;
+  max-width: 100vw;
   max-height: 90vh;
-  animation: viewImg 0.6s;
+  object-fit: contain;
 }
+
+/* .gallery__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+/* .gallery__img-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+} */
+
+/* .gallery-item img {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+} */
 
 #close {
   position: fixed;
@@ -268,7 +333,7 @@ const closeViewer = () => {
 
   .img-0 {
     grid-row: span 2;
-    grid-column: span 2;
+    grid-column: span 3;
   }
 
   .img-1 {
@@ -299,7 +364,8 @@ const closeViewer = () => {
   }
 
   .img-7 {
-    grid-column: span 1;
+    grid-column: span 2;
+    grid-row: span 2;
   }
 
   .img-8 {
@@ -307,25 +373,27 @@ const closeViewer = () => {
   }
 
   .img-9 {
-    grid-column: span 2;
+    grid-column: span 1;
+    grid-row: span 1;
   }
 
   .img-10 {
-    /* grid-column: span 3; */
+    grid-column: span 1;
   }
 
   .img-11 {
-    /* grid-column: span 2; */
+    grid-column: span 2;
   }
 
   .img-12 {
-    grid-column: span 2;
+    grid-column: span 3;
+    grid-row: span 2;
   }
 
-  .img-13 {
+  /* .img-13 {
 
-    grid-column: span 2;
-  }
+    grid-column: span 3;
+  } */
 
   .img-14 {
     /* grid-column: span 2; */
@@ -343,6 +411,20 @@ const closeViewer = () => {
   .gallery__img-grid {
     grid-template-columns: 475px 475px 475px;
     grid-template-rows: 325px;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  #image-viewer img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  #image-viewer img {
+    width: 90%;
+    height: auto;
   }
 }
 </style>

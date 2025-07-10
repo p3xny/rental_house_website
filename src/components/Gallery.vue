@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 
-import kitchen from '@/assets/gallery/kitchen01-fhd.png';
+import kitchen from '@/assets/gallery/kitchen-new.jpg';
 import bathroom from '@/assets/gallery/bathroom01-fhd.png';
-import livingRoom from '@/assets/gallery/living-room01-fhd.png';
+import livingRoom from '@/assets/gallery/living-room02.jpg';
 import villageSunset from '@/assets/village-sunset.jpg';
 
 const homeGalleryImages = {
@@ -88,7 +88,7 @@ const handleAnimationEnd = () => {
 <style scoped>
 .home-gallery {
   background-color: var(--clr-light);
-  background-color: var(--clr-dark-blue);
+  /* background-color: var(--clr-dark-blue); */
 }
 
 .home-gallery__welcome-section {

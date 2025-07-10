@@ -2,7 +2,10 @@
 import { ref, computed, onMounted } from 'vue';
 import { useCalendarStore } from '@/stores/calendarStore';
 import { useScreens } from 'vue-screen-utils';
+import { useI18n } from 'vue-i18n';
 
+
+const { t } = useI18n();
 const emit = defineEmits(['toggleElement']);
 const handleClick = () => {
   emit('toggleElement');
@@ -53,8 +56,9 @@ const { mapCurrent } = useScreens({
   md: '768px',
   lg: '1024px',
 });
-const columns = mapCurrent({ sm: 2 }, 2);
-const expanded = mapCurrent({ lg: false }, true);
+// const rows = mapCurrent({ lg: 1 }, 2);
+const columns = mapCurrent({ lg: 2 }, 2);
+// const expanded = mapCurrent({ lg: false }, true);
 const attrs = ref([
   {
     key: 'Any',
@@ -64,6 +68,7 @@ const attrs = ref([
   }
 ]);
 const userLocale = ref('pl-PL');
+const monthsCount = computed(() => rows.value * columns.value);
 
 const dateRange = ref({
   start: new Date(),
@@ -77,17 +82,6 @@ const confirmRange = () => {
 const masks = {
   input: 'DD MMM YYYY',
 }
-
-
-// RESERVATION FORM
-// const endDate = new Date().toISOString().split('T')[0];
-// const tomorrowDate = new Date(date);
-// tomorrowDate.setDate(today.getDate() + 1);
-// tomorrowDate.toISOString().split('T')[0];
-// console.log(endDate);
-// console.log(tomorrowDate);
-console.log(tomorrow)
-
 
 const formVisible = ref(false)
 
@@ -106,7 +100,7 @@ const sendReservationRequest = async () => {
   const message = document.querySelector('.message-input').value.trim();
 
   if (!email) {
-    alert('Proszę podać adres email, na który możemy się odezwać :)');
+    alert('Prosimy o podanie adresu e-mail, na który możemy się odezwać :)');
     return;
   }
 
@@ -140,8 +134,6 @@ const sendReservationRequest = async () => {
     alert('Nie udało się wysłać wiadomości z powodu błędu sieci.');
   }
 };
-
-
 // RESERVATION FORM^
 
 
@@ -214,8 +206,9 @@ onMounted(() => {
   <div id="overlay" v-else-if="formVisible" @click="toggleReservationForm()"></div>
 
   <div id="calendar-container" class="calendar-container" v-if="calendarStore.isCalendarVisible">
-    <VDatePicker :min-date="new Date()" :columns="columns" :attributes="attrs" :expanded="expanded" :locale="userLocale"
-      v-model.range="dateRange" :masks="masks" class="my-custom-datepicker" />
+    <VDatePicker v-model.range="dateRange" :min-date="new Date()" :rows="$screens({ default: 1, sm: 2 })"
+      :columns="columns" :months="monthsCount" :attributes="attrs" :expanded="expanded" :locale="userLocale"
+      :masks="masks" class="my-custom-datepicker" />
   </div>
 
   <div class="reservation-final-form" id="reservation-final-form" v-show="formVisible"
@@ -226,12 +219,10 @@ onMounted(() => {
     </div>
 
     <div class="message-field">
-      <span>Jakieś pytania? Napisz wiadomość!</span>
-      <span><strong>Wiadomość:</strong></span>
+      <span>{{ t('anyQuestions') }} {{ t('messageUs') }}</span>
+      <span><strong>{{ t('message') }}:</strong></span>
       <textarea class="message-input" id="message-input" placeholder="Napisz wiadomość..." maxlength="500"></textarea>
       <p id="charCount">0/500 znaków</p>
-      <!-- <span>Zaznaczona wcześniej data do rezerwacji będzie wysłana do nas w wiadomości automatycznej</span> -->
-
     </div>
     <button class="send-btn" @click="sendReservationRequest()">Wyślij</button>
   </div>
@@ -282,14 +273,14 @@ li {
   text-transform: uppercase;
   color: var(--clr-dark);
   justify-content: center;
+  /* background: var(--clr-dark-blue); */
 }
 
 .rezerwacja__form {
   display: flex;
-  width: 400px;
-  font-size: var(--size-base);
+  width: 356px;
+  font-size: var(--size-sm);
   font-weight: bold;
-
 }
 
 .rezerwacja__header {
@@ -307,6 +298,8 @@ li {
   height: 60px;
 
   background-color: var(--clr-light);
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 .rezerwacja__date:hover,
@@ -320,14 +313,16 @@ li {
   /* color: var(--clr-dark-blue); */
   color: var(--clr-dark);
   border: none;
-  font-size: var(--size-base);
+  font-size: var(--size-sm);
   font-weight: bold;
   text-transform: uppercase;
   transition: color 0.3s;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 .rezerwacja__btn:hover {
-  background-color: var(--clr-warm-beige-600);
+  background-color: var(--clr-warm-beige-200);
   cursor: pointer;
 }
 
@@ -472,9 +467,6 @@ li {
   color: var(--clr-dark-blue);
   background-color: var(--clr-light);
 
-  /* color: var(--clr-dark);
-  background-color: var(--clr-warm-beige-400); */
-
   transition: transform 0.3s, color 0.3s, background-color 0.3s;
   border: none;
   border-radius: 3px;
@@ -484,8 +476,7 @@ li {
 }
 
 .send-btn:hover {
-  /* background-color: var(--clr-warm-beige-600); */
-  background-color: var(--clr-warm-beige-200);
+  background-color: var(--clr-warm-beige-400);
   cursor: pointer;
 }
 

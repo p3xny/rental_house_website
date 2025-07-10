@@ -2,9 +2,10 @@
 import { useCalendarStore } from '@/stores/calendarStore';
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { nextTick } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import MobileHeader from './MobileHeader.vue';
-
 import panorama from '@/assets/panorama.jpg';
 
 
@@ -15,7 +16,7 @@ const props = defineProps({
   },
 })
 
-
+const { t, locale, availableLocales } = useI18n({ useScope: 'global' });
 const route = useRoute();
 const router = useRouter();
 const lastScrollY = ref(0);
@@ -77,6 +78,25 @@ const handleAnimationEnd = () => {
     animateClose.value = false;
   }
 }
+
+const scrollToSection = (section) => {
+  const target = document.getElementById(`${section}`);
+  if (target) {
+    const yOffset = -64;
+    const yPosition = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: yPosition, behavior: 'smooth' });
+  }
+};
+
+const routeAndScroll = (url, section) => {
+  router.push({ path: `${url}` }).then(() => {
+    nextTick(() => scrollToSection(section));
+  });
+}
+
+// const goToReservationSection = () => {
+  
+// }
 </script>
 
 
@@ -101,10 +121,13 @@ const handleAnimationEnd = () => {
 
       <ul class="header__menu">
         <li>
-          <a :href="isHomePage ? '#o-nas' : '/#o-nas'" class="header__link" :class="linkThemeClass">O nas</a>
+          <!-- :href="isHomePage ? '#o-nas' : '/#o-nas'" -->
+          <a @click="isHomePage ? scrollToSection('o-nas') : routeAndScroll('/', 'o-nas')" class="header__link"
+            :class="linkThemeClass">{{ t('about') }}</a>
         </li>
         <li>
-          <a :href="isHomePage ? '/galeria' : '#galeria'" class="header__link" :class="linkThemeClass">Galeria</a>
+          <a :href="isHomePage ? '/galeria' : '#galeria'" class="header__link" :class="linkThemeClass">{{ t('gallery')
+          }}</a>
         </li>
         <!-- <li>
           <a href="#atrakcje" class="header__link" :class="linkThemeClass">Atrakcje</a>
@@ -113,13 +136,14 @@ const handleAnimationEnd = () => {
           <a :href="isHomePage ? '#faq' : '/#faq'" class="header__link" :class="linkThemeClass">FAQ</a>
         </li> -->
         <li>
-          <a :href="isHomePage ? '#kontakt' : '#kontakt'" class="header__link" :class="linkThemeClass">Kontakt</a>
+          <a :href="isHomePage ? '#kontakt' : '#kontakt'" class="header__link" :class="linkThemeClass">{{ t('contact')
+            }}</a>
         </li>
         <li class="header__line"></li>
         <li>
           <button id="reservationButton" :class="scrolled ? 'header__btn-scrolled' : 'btn header__btn'"
-            style="text-transform: uppercase;" @click="calendarStore.toggleCalendar()">
-            Rezerwacja
+            style="text-transform: uppercase;" @click="scrollToSection('reservation-section')">
+            {{ t('reservation') }}
           </button>
         </li>
       </ul>
@@ -143,6 +167,7 @@ const handleAnimationEnd = () => {
   top: 0;
   left: 0;
   width: 100%;
+  height: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -240,7 +265,7 @@ const handleAnimationEnd = () => {
 }
 
 .header__link:hover {
-  color: gold;
+  color: var(--clr-warm-beige-400);
 }
 
 .header__line {
@@ -266,7 +291,7 @@ const handleAnimationEnd = () => {
 
 .btn:hover {
   transform: translateY(-5px);
-  background-color: var(--clr-warm-beige-200);
+  background-color: var(--clr-warm-beige-400);
   cursor: pointer;
 }
 
@@ -294,9 +319,8 @@ const handleAnimationEnd = () => {
 
 .header__btn-scrolled:hover {
   cursor: pointer;
-  background-color: var(--clr-warm-beige-200);
+  background-color: var(--clr-warm-beige-400);
 }
-
 
 
 

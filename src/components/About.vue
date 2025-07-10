@@ -12,18 +12,13 @@ import tatraMountainsClean from '@/assets/gallery/TatraMountains-Clean.jpg';
     <div class="o-nas__content">
       <h2 class="o-nas__title">Dom z widokiem na panoramę Tatr</h2>
       <p class="o-nas__description">
-        Zatrać się w pięknych Tatrach niezależnie od pory roku.
+        Ze wszystkich pomieszczeń rozpościera się niewiarygodnie cudowny widok na całą panoramę Tatr polskich i
+        słowackich…
+
+        <br><br>
+        Domek ma 127m² powierzchni, trzy kondygnacje, może pomieścić 10 – 13 osób. Przed budynkiem znajduje się parking
+        dla czterech samochodów oraz garaż na jedno auto. Dostęp do internetu – WIFI w całym domu
       </p>
-      <!-- <p class="o-nas__description">Domek wypoczynkowy z pięknym widokiem na
-        <strong>panoramę Tatr</strong>.
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea ex dignissimos maiores quis expedita officia
-        fugiat ad consectetur libero nostrum vel aperiam, ipsum doloremque, numquam incidunt rerum molestias quod
-        facilis optio deleniti dolorum voluptatibus laudantium? Alias et officiis incidunt animi voluptatem
-        cupiditate. Eius repudiandae consequatur molestias fugit totam sed adipisci ducimus, libero exercitationem
-        fuga voluptates praesentium quibusdam dolores dignissimos laboriosam impedit id ab. Neque dolores
-        quibusdam
-        alias eligendi earum veniam.
-      </p> -->
     </div>
     <br class="img-separator">
     <!-- <br> -->
@@ -216,11 +211,13 @@ br {
 
   .o-nas__title {
     font-size: var(--size-5xl);
+    margin-right: 0.5rem;
   }
 
   .o-nas__description {
     font-size: var(--size-xl);
   }
+
 }
 
 @media (min-width: 1675px) {

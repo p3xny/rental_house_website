@@ -1,5 +1,6 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   isOpen: {
@@ -12,7 +13,10 @@ const props = defineProps({
   },
 });
 
+
+const { t } = useI18n();
 const emit = defineEmits(['animationEnd']);
+const overlay = document.getElementById('overlay');
 
 const animationClass = computed(() => {
   if (props.animateClose) return 'slide-out';
@@ -27,31 +31,54 @@ const openGoogleMaps = () => {
 const callPhone = () => {
   window.location.href = 'tel:+48692434000';
 }
+
+
+// const animateClose = ref(false);
+// const closeMobileNav = () => {
+//   animateClose.value = true;
+// }
+
+// const reservationSection = document.getElementById('reservation-section')
+
+// const goToReservationSection = () => {
+//   closeMobileNav();
+//   window.scrollTo(reservationSection);
+// }
+
+
+// const reservationBtn = document.getElementById('reservationButton');
+// const reservationSection = document.getElementById('reservation-section');
+
+const isReservationSection = ref(null);
+
+const scrollToReservation = () => {
+  isReservationSection.value?.scrollIntoView({ behavior: 'smooth' });
+}
 </script>
 
 <template>
   <div id="mobile-nav" class="mobile-nav" :class="animationClass" @animationend="emit('animationEnd')">
     <div class="button-grid">
       <button id="phoneCallButton" class="btn header__btn" style="text-transform: uppercase;" @click="callPhone">
-        Zadzwoń
+        {{ t('call') }}
       </button>
       <button id="reservationButton" class="btn header__btn" style="text-transform: uppercase;"
-        @click="calendarStore.toggleCalendar()">
-        Rezerwacja
+        @click="scrollToReservation">
+        {{ t('reservation') }}
       </button>
       <button id="mapsButton" class="btn header__btn" style="text-transform: uppercase;" @click="openGoogleMaps">
-        Dojazd
+        {{ t('navigate') }}
       </button>
     </div>
     <ul>
       <li>
-        <a href="/">Strona główna</a>
+        <a href="/">{{ t('homepage') }}</a>
       </li>
       <li>
-        <a href="#o-nas">O nas</a>
+        <a href="/#o-nas">{{ t('about') }}</a>
       </li>
       <li>
-        <a href="/galeria">Galeria</a>
+        <a href="/galeria">{{ t('gallery') }}</a>
       </li>
       <!-- <li>
         <a href="#atrakcje">Atrakcje</a>
@@ -60,11 +87,12 @@ const callPhone = () => {
         <a href="#faq">FAQ</a>
       </li> -->
       <li>
-        <a href="#kontakt">Kontakt</a>
+        <a href="#kontakt">{{ t('contact') }}</a>
       </li>
     </ul>
   </div>
 </template>
+
 
 <style scoped>
 .mobile-nav {
@@ -132,19 +160,21 @@ li {
 }
 
 .mobile-nav a:hover {
-  color: gold;
+  /* color: gold; */
+  color: var(--clr-warm-beige-400);
 }
 
 /* BUTTONS */
 .button-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1 1 1;
   padding-bottom: 3rem;
   width: 100%;
 }
 
 .btn {
-  display: inline-block;
+  /* display: inline-block; */
   font-weight: 600;
   text-decoration: none;
   letter-spacing: +0.05rem;
@@ -183,6 +213,8 @@ li {
 }
 
 /* BUTTON END */
+@media (min-width: 350px) {}
+
 @media (min-height: 600px) {
   /* .mobile-nav {
     width: 380px;
@@ -205,7 +237,7 @@ li {
 
   .header__btn {
     height: 6rem;
-    font-size: var(--size-lg);
+    /* font-size: var(--size-lg); */
   }
 
 }
@@ -218,12 +250,12 @@ li {
   }
 
   .mobile-nav a {
-    font-size: var(--size-3xl);
+    /* font-size: var(--size-3xl); */
   }
 
   .header__btn {
     height: 7rem;
-    font-size: var(--size-xl);
+    /* font-size: var(--size-xl); */
   }
 
 

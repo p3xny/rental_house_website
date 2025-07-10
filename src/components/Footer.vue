@@ -1,7 +1,7 @@
 <template>
   <footer id="kontakt">
     <div class="phone">
-      zadzwoń
+      <!-- zadzwoń -->
       <a class="footer-item" href="tel:+48692434000">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd"
@@ -12,14 +12,14 @@
       </a>
 
 
-      lub skontaktuj się przez e-mail
+      <!-- lub skontaktuj się przez e-mail -->
       <a class="footer-item" href="mailto:">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
           <path
             d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
         </svg>
-        <!-- domekrzepiska@gmail.com -->
+        domekrzepiska@gmail.com
       </a>
     </div>
   </footer>
@@ -27,10 +27,15 @@
 </template>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
+
 footer {
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: var(--clr-dark-blue);
+
+  background-color: var(--clr-dark);
   color: var(--clr-light);
 
   justify-items: center;
@@ -50,10 +55,19 @@ footer {
   gap: 0.3em;
   transition: color 0.3s;
   padding: 0;
+  font-weight: 600;
+
+  font-size: var(--size-sm);
 }
 
 .footer-item:hover {
   color: gold;
   cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .footer-item {
+    font-size: var(--siez-base);
+  }
 }
 </style>
