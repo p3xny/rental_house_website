@@ -31,19 +31,20 @@ conf = ConnectionConfig(
 
 class RequestPayload(BaseModel):
     email: EmailStr
+    phone: str
     message: str
     startDate: date
     endDate: date
     people: int
 
 
-async def send_notification(client_email: str, client_name: str, message_content: str):
+async def send_notification(client_email: str, client_phone: str, message_content: str):
     fm = FastMail(conf)
 
     message = MessageSchema(
         subject="Rezerwacja",
         recipients=["platynski@gmail.com"],
-        body=f"Wiadomość od {client_email}:\n\n{message_content}",
+        body=f"Wiadomość od {client_email}\nTelefon: {client_phone}\n\n{message_content}",
         subtype="plain",
         headers={
             "From": client_email,
@@ -55,7 +56,7 @@ async def send_notification(client_email: str, client_name: str, message_content
 
 
 @app.get("/api/data")
-def get_date():
+def get_data():
     return {"message", "Hello from FastAPI!"}
 
 
@@ -71,8 +72,9 @@ async def send_message(payload: RequestPayload):
     if is_available:
         await send_notification(
             client_email=payload.email,
-            client_name="Imię klienta",
-            message_content=f"Liczba osób: {payload.people}\nOd dnia: {payload.startDate}\nDo dnia: {payload.endDate}\n\n{payload.message}",
+            client_phone=payload.phone,
+            # client_name="Imię klienta",
+            message_content=f"Liczba osób: {payload.people}\nOd dnia: {payload.startDate}\nDo dnia: {payload.endDate}\n\nTreść:\n{payload.message}",
         )
 
         return {"message": "Dziękujemy za złożenie rezerwacji, odezwiemy się wkrótce!"}

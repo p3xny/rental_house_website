@@ -94,9 +94,23 @@ const routeAndScroll = (url, section) => {
   });
 }
 
-// const goToReservationSection = () => {
-  
-// }
+const reservationButtonClass = computed(() => {
+  // const baseClass = scrolled.value || !props.isLightTheme ? 'btn header__btn' : 'header__btn-scrolled';
+  // return [baseClass, linkThemeClass.value]
+
+  let base = 'header__btn';
+
+  if (scrolled.value) {
+    return ['header__btn--scrolled', linkThemeClass.value];
+  }
+
+  if (props.isLightTheme) {
+    return [base, 'btn header__btn--light', linkThemeClass.value];
+  }
+
+  return ['btn', base, linkThemeClass.value];
+
+})
 </script>
 
 
@@ -129,20 +143,19 @@ const routeAndScroll = (url, section) => {
           <a :href="isHomePage ? '/galeria' : '#galeria'" class="header__link" :class="linkThemeClass">{{ t('gallery')
           }}</a>
         </li>
-        <!-- <li>
-          <a href="#atrakcje" class="header__link" :class="linkThemeClass">Atrakcje</a>
-        </li> -->
-        <!-- <li>
-          <a :href="isHomePage ? '#faq' : '/#faq'" class="header__link" :class="linkThemeClass">FAQ</a>
-        </li> -->
         <li>
           <a :href="isHomePage ? '#kontakt' : '#kontakt'" class="header__link" :class="linkThemeClass">{{ t('contact')
             }}</a>
         </li>
         <li class="header__line"></li>
         <li>
-          <button id="reservationButton" :class="scrolled ? 'header__btn-scrolled' : 'btn header__btn'"
+          <!-- <button id="reservationButton" :class="scrolled ? 'header__btn-scrolled' : 'btn header__btn'"
             style="text-transform: uppercase;" @click="scrollToSection('reservation-section')">
+            {{ t('reservation') }}
+          </button> -->
+
+          <button id="reservationButton" :class="reservationButtonClass" style="text-transform: uppercase;"
+            @click="scrollToSection('reservation-section')">
             {{ t('reservation') }}
           </button>
         </li>
@@ -253,7 +266,7 @@ const routeAndScroll = (url, section) => {
 }
 
 .header__link.link--dark {
-  color: var(--clr-dark-blue);
+  color: var(--clr-dark);
 }
 
 .header__bars.link--light {
@@ -261,7 +274,7 @@ const routeAndScroll = (url, section) => {
 }
 
 .header__bars.link--dark {
-  color: var(--clr-dark-blue);
+  color: var(--clr-dark);
 }
 
 .header__link:hover {
@@ -281,7 +294,7 @@ const routeAndScroll = (url, section) => {
   letter-spacing: +0.05rem;
 
   background-color: var(--clr-light);
-  color: var(--clr-dark-blue);
+  color: var(--clr-dark);
 
   padding: 0.5em 1em;
   border-radius: 6px;
@@ -302,22 +315,27 @@ const routeAndScroll = (url, section) => {
   margin-right: 2rem;
 }
 
+.header__btn--light {
+  color: var(--clr-light);
+  background-color: var(--clr-dark);
+}
+
 .header__btn,
-.header__btn-scrolled {
+.header__btn--scrolled {
   transition: all 0.3s ease-in-out;
 }
 
-.header__btn-scrolled {
+.header__btn--scrolled {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   font-size: var(--size-xl);
   font-weight: bold;
-  color: var(--clr-dark-blue);
+  color: var(--clr-dark);
   background-color: var(--clr-light);
   border: none;
 }
 
-.header__btn-scrolled:hover {
+.header__btn--scrolled:hover {
   cursor: pointer;
   background-color: var(--clr-warm-beige-400);
 }

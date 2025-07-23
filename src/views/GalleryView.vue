@@ -33,13 +33,6 @@ const imgs = [
   benches, tatraMountainsHousePanorama
 ];
 
-// tatraMountainsHousePanorama
-// livingRoom01, bedroom02,
-
-// bedroom01
-// livingRoom02
-// tatraMountainsCleanOrange
-
 const isHovered = ref(false);
 
 const elementStyle = computed(() => ({
@@ -176,22 +169,6 @@ const closeViewer = () => {
 }
 
 /* IMAGE VIEWER START */
-/* #full-image {
-  width: 100%;
-  height: auto;
-} */
-
-/* #image-viewer {
-  position: fixed;
-  display: none;
-  z-index: 10002;
-  top: 50%;
-  left: 50%;
-  transition: all 0.3s;
-  transform: translate(-50%, -50%);
-  transform-origin: center;
-} */
-
 #image-viewer {
   position: fixed;
   display: none;
@@ -203,62 +180,11 @@ const closeViewer = () => {
   transform-origin: center;
 }
 
-/* #image-viewer div {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  overflow: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-} */
-
-/* #image-viewer {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-} */
-
-/* #image-viewer img {
-  width: 100%;
-  height: auto;
-  max-height: 90vh;
-  max-width: 100%;
-  object-fit: contain;
-} */
-
 #image-viewer img {
   max-width: 100vw;
   max-height: 90vh;
   object-fit: contain;
 }
-
-/* .gallery__body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
-
-/* .gallery__img-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-} */
-
-/* .gallery-item img {
-  width: 100%;
-  height: auto;
-  cursor: pointer;
-} */
 
 #close {
   position: fixed;

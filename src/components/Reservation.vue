@@ -4,6 +4,8 @@ import { useCalendarStore } from '@/stores/calendarStore';
 import { useScreens } from 'vue-screen-utils';
 import { useI18n } from 'vue-i18n';
 
+import { dateRange, formVisible, sendReservationRequest } from '@/utils/reservationRequest';
+
 
 const { t } = useI18n();
 const emit = defineEmits(['toggleElement']);
@@ -56,9 +58,7 @@ const { mapCurrent } = useScreens({
   md: '768px',
   lg: '1024px',
 });
-// const rows = mapCurrent({ lg: 1 }, 2);
 const columns = mapCurrent({ lg: 2 }, 2);
-// const expanded = mapCurrent({ lg: false }, true);
 const attrs = ref([
   {
     key: 'Any',
@@ -68,12 +68,12 @@ const attrs = ref([
   }
 ]);
 const userLocale = ref('pl-PL');
-const monthsCount = computed(() => rows.value * columns.value);
+// const monthsCount = computed(() => rows.value * columns.value);
 
-const dateRange = ref({
-  start: new Date(),
-  end: new Date(),
-})
+// const dateRange = ref({
+//   start: new Date(),
+//   end: new Date(),
+// })
 
 const confirmRange = () => {
   alert(`Dziękujemy za wysłania zapytania! Odpiszemy tak szybko jak to możliwe`)
@@ -83,57 +83,14 @@ const masks = {
   input: 'DD MMM YYYY',
 }
 
-const formVisible = ref(false)
-
 const toggleReservationForm = () => {
   const element = document.getElementById('reservation-final-form');
   element.style.display = 'block';
   formVisible.value = !formVisible.value;
 };
 
-const closeForm = () => {
-  formVisible.value = false;
-}
-
-const sendReservationRequest = async () => {
-  const email = document.querySelector('.email-input').value.trim();
-  const message = document.querySelector('.message-input').value.trim();
-
-  if (!email) {
-    alert('Prosimy o podanie adresu e-mail, na który możemy się odezwać :)');
-    return;
-  }
-
-  const payload = {
-    email,
-    message,
-    startDate: dateRange.value.start.toISOString().split('T')[0],
-    endDate: dateRange.value.end.toISOString().split('T')[0],
-    people: peopleCount.value,
-  };
-
-  try {
-    const response = await fetch('http://localhost:8000/api/send-message', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (response.ok) {
-      const result = await response.json();
-      alert('Wiadomość została wysłana pomyślnie: ' + result.message);
-      closeForm();
-    } else {
-      const error = await response.json();
-      alert('Błąd podczas wysyłania wiadomości: ' + (error.detail || 'Nieznany błąd.'));
-    }
-  } catch (err) {
-    console.error('Błąd sieci:', err);
-    alert('Nie udało się wysłać wiadomości z powodu błędu sieci.');
-  }
-};
+const selectedNumber = ref(1);
+const numbers = Array.from({ length: 13 }, (_, i) => i + 1);
 // RESERVATION FORM^
 
 
@@ -171,7 +128,6 @@ const formattedEndDate = computed(() => {
   }
 });
 
-
 onMounted(() => {
   const selectedStartDate = formattedStartDate.value.substr(0, 2);
   const selectedEndDate = formattedEndDate.value.substr(0, 2);
@@ -180,7 +136,7 @@ onMounted(() => {
   console.log(`${typeof startDateNumber}: ${startDateNumber}, nDay: ${endDateNumber}... 1: ${typeof 1}`);
 
   // RESERVATION FORM
-  const textarea = document.getElementById('message-input');
+  const textarea = document.getElementById('message-input-popUpForm');
   const charCount = document.getElementById('charCount');
 
   textarea.addEventListener('input', () => {
@@ -189,10 +145,10 @@ onMounted(() => {
     charCount.textContent = `${currentLength}/${maxLength} znaków`;
 
     if (parseInt(currentLength, 10) === parseInt(maxLength, 10)) {
-      charCount.style.color = 'yellow';
+      charCount.style.color = 'red';
       charCount.textContent = `${currentLength}/${maxLength} znaków - osiągnięto limit znaków.`;
     } else {
-      charCount.style.color = 'white';
+      charCount.style.color = 'var(--clr-dark)';
       charCount.textContent = `${currentLength}/${maxLength} znaków`;
     };
   })
@@ -206,34 +162,61 @@ onMounted(() => {
   <div id="overlay" v-else-if="formVisible" @click="toggleReservationForm()"></div>
 
   <div id="calendar-container" class="calendar-container" v-if="calendarStore.isCalendarVisible">
-    <VDatePicker v-model.range="dateRange" :min-date="new Date()" :rows="$screens({ default: 1, sm: 2 })"
-      :columns="columns" :months="monthsCount" :attributes="attrs" :expanded="expanded" :locale="userLocale"
-      :masks="masks" class="my-custom-datepicker" />
+    <VDatePicker id="calendar-popUp" v-model.range="dateRange" :min-date="new Date()" :columns="columns"
+      :attributes="attrs" :expanded="expanded" :locale="userLocale" :masks="masks" class="my-custom-datepicker" />
+    <!-- :months="monthsCount" -->
   </div>
 
+  <!-- FORM for sending messages -->
   <div class="reservation-final-form" id="reservation-final-form" v-show="formVisible"
     :style="{ display: formVisible ? 'block' : 'none' }">
-    <div class="email-field">
-      <span><strong>e-mail:</strong></span>
-      <input class="email-input" type="text">
+
+    <div class="user-data-container">
+      <div class="email-field">
+        <svg style="height: 2rem; fill: var(--clr-dark);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          fill="">
+          <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+          <path
+            d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+        </svg>
+        <input id="email-input-popUpForm" class="email-input" type="text" placeholder="email@mail.com">
+      </div>
+
+      <div class="email-field">
+        <span class="contact-cell">
+          <svg style="height: 2rem; fill: var(--clr-dark);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+            fill="">
+            <path fill-rule="evenodd"
+              d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
+              clip-rule="evenodd" />
+          </svg>
+        </span>
+        <input id="phone-input-popUpForm" class="email-input" type="text" placeholder="+48 123 456 789">
+      </div>
     </div>
+
 
     <div class="message-field">
       <span>{{ t('anyQuestions') }} {{ t('messageUs') }}</span>
-      <span><strong>{{ t('message') }}:</strong></span>
-      <textarea class="message-input" id="message-input" placeholder="Napisz wiadomość..." maxlength="500"></textarea>
+      <!-- <span><strong>{{ t('message') }}:</strong></span> -->
+      <textarea id="message-input-popUpForm" class="message-input" placeholder="Napisz wiadomość..."
+        maxlength="500"></textarea>
       <p id="charCount">0/500 znaków</p>
     </div>
-    <button class="send-btn" @click="sendReservationRequest()">Wyślij</button>
+    <button class="send-btn"
+      @click="sendReservationRequest('email-input-popUpForm', 'phone-input-popUpForm', 'message-input-popUpForm')">
+      Wyślij
+    </button>
   </div>
 
-  <section class="rezerwacja section">
+  <!-- The section with buttons and datepicker(toggleable) -->
+  <section class=" rezerwacja section">
     <div class="rezerwacja__form" id="formCalendar">
       <div class="rezerwacja__date" id="arrival" @click="calendarStore.toggleCalendar()">
         <span v-if="startDateNumber < 10">0{{ formattedStartDate }}</span>
         <span v-else="">{{ formattedStartDate }}</span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-          style="width: 6rem; height: 3rem;" class="arrow">
+          style="margin-left: -1rem;width: 6rem; height: 3rem;" class="arrow">
           <path fill-rule="evenodd"
             d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
             clip-rule="evenodd" class="arrow" />
@@ -243,14 +226,22 @@ onMounted(() => {
         <span v-else="">{{ formattedEndDate ? formattedEndDate : dateTomorrow }}</span>
       </div>
       <div class="rezerwacja__guests" id="guestsButton">{{ peopleCount }} {{ numberOfPeople(peopleCount) }}
+        <!-- <select id="number-select" v-model="selectedNumber"> -->
+        <!-- <option class="number" v-for="number in numbers" :key="number" :value="number"> -->
+        <!-- {{ number }} -->
+        <!-- </option> -->
+        <!-- </select> -->
+
         <div id="guest-dropdown-menu" class="dropdown-content">
           <ul class="guest-ul">
             <li :id="`guest-li-${n}`" :class="isDropdown ? 'guest-li-none' : 'guest-li'"
-              v-for="(n, index) in guestLimit" :key="index" @click="changeNumberOfGuests(`guest-li-${n}`)">{{ n }}</li>
+              v-for="(n, index) in guestLimit" :key="index" @click="changeNumberOfGuests(`guest-li-${n}`)">{{ n }}
+            </li>
           </ul>
         </div>
       </div>
-      <button class="rezerwacja__btn" @click="toggleReservationForm()">Sprawdź dostępność</button>
+      <button class="rezerwacja__btn" @click="toggleReservationForm()">Sprawdź
+        dostępność</button>
     </div>
   </section>
 </template>
@@ -268,12 +259,19 @@ li {
   padding: 0;
 }
 
+.calendar-container {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
 .rezerwacja {
   display: flex;
   text-transform: uppercase;
   color: var(--clr-dark);
   justify-content: center;
-  /* background: var(--clr-dark-blue); */
 }
 
 .rezerwacja__form {
@@ -310,7 +308,6 @@ li {
 
 .rezerwacja__btn {
   background-color: var(--clr-warm-beige-400);
-  /* color: var(--clr-dark-blue); */
   color: var(--clr-dark);
   border: none;
   font-size: var(--size-sm);
@@ -319,6 +316,9 @@ li {
   transition: color 0.3s;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
+
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .rezerwacja__btn:hover {
@@ -333,6 +333,8 @@ li {
 .rezerwacja__guests {
   display: flex;
   width: 150px;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
   background-color: var(--clr-slate200);
   align-items: center;
   justify-content: center;
@@ -358,7 +360,7 @@ li {
 
 .guest-li {
   background-color: var(--clr-light);
-  color: var(--clr-dark-blue);
+  color: var(--clr-dark);
   width: 100%;
   list-style: none;
   z-index: 1;
@@ -379,7 +381,7 @@ li {
 .reservation-final-form {
   position: fixed;
   width: 100%;
-  height: 500px;
+  height: 600px;
   display: none;
 
   top: 50%;
@@ -387,41 +389,47 @@ li {
 
   transform: translate(-50%, -50%);
 
+  background-color: var(--clr-light);
   background-color: white;
-  color: var(--clr-dark-blue);
-
-
-  background-color: var(--clr-dark-blue);
-  color: white;
+  color: var(--clr-dark);
 
   z-index: 10000;
-
-  /* border-radius: 12px; */
-
   font-size: large;
   letter-spacing: +0.05rem;
 }
 
 .email-field {
-  display: flex;
-  flex-direction: row;
-  margin-left: 2rem;
   margin-top: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+
+  flex: 1;
+  display: flex;
+
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--clr-dark);
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  background-color: #fff;
+  width: 270px;
 }
+
+
 
 .email-input {
-  margin-left: 0.5rem;
-  border-radius: 6px;
-  border: solid 1px var(--clr-dark-blue);
-  background-color: var(--clr-light);
-  color: var(--clr-dark);
-
-  font-weight: 500;
-  font-size: medium;
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1rem;
+  width: 100%;
 }
+
 
 .email-input:focus {
   background-color: var(--clr-warm-beige-200);
+  background-color: var(--clr-light);
 }
 
 .message-field {
@@ -447,12 +455,16 @@ li {
   overflow-y: auto;
 }
 
+.message-input:focus {
+  background-color: var(--clr-light);
+}
+
 .send-btn {
   position: absolute;
   right: 0;
   bottom: 0;
-  margin-top: 2rem;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
 
   text-transform: uppercase;
   letter-spacing: +0.05rem;
@@ -463,23 +475,31 @@ li {
   font: var(--size-xl);
   font-weight: 600;
 
-
-  color: var(--clr-dark-blue);
-  background-color: var(--clr-light);
+  color: var(--clr-light);
+  background-color: var(--clr-dark);
 
   transition: transform 0.3s, color 0.3s, background-color 0.3s;
   border: none;
-  border-radius: 3px;
+  border-radius: 6px;
 
   text-align: center;
   justify-content: center;
+
+  box-shadow: 0 1px 5px var(--clr-dark);
 }
 
 .send-btn:hover {
-  background-color: var(--clr-warm-beige-400);
+  background-color: var(--clr-warm-beige-600);
   cursor: pointer;
+  transform: translate(0, -5px);
 }
 
+.user-data-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
 
 /* RESERVATION POP UP FORM END */
 
@@ -488,11 +508,8 @@ li {
     width: 400px;
   }
 
-  .reservation-final-form {
-    width: 94%;
-    height: 60%;
-    border-radius: 6px;
-    box-shadow: 1rem rgba(0, 0, 0, 1);
+  .email-input {
+    width: 250px;
   }
 }
 
@@ -505,17 +522,31 @@ li {
   .guest-li {
     width: 89.425px;
   }
+
+  .user-data-container {
+    flex-direction: row;
+  }
+
+  .email-field {
+    width: 32%;
+  }
 }
 
 @media (min-width: 768px) {
   .message-input {
-    width: 600px;
+    width: 640px;
     font-size: 1.2rem;
   }
 
   .reservation-final-form {
     width: 700px;
-    height: 520px;
+    height: 620px;
+
+    border-radius: 12px;
+  }
+
+  .email-input {
+    width: 280px;
   }
 
 }
@@ -539,12 +570,12 @@ li {
   }
 
   .message-input {
-    width: 650px;
+    width: 740px;
   }
 
   .reservation-final-form {
     width: 800px;
-    height: 500px;
+    height: 600px;
   }
 
 }

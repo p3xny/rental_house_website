@@ -87,8 +87,7 @@ const handleAnimationEnd = () => {
 
 <style scoped>
 .home-gallery {
-  background-color: var(--clr-light);
-  /* background-color: var(--clr-dark-blue); */
+  /* background-color: var(--clr-light); */
 }
 
 .home-gallery__welcome-section {
@@ -101,7 +100,6 @@ const handleAnimationEnd = () => {
   font-family: 'Playfair Display', serif;
   text-align: center;
   font-size: var(--size-2xl);
-  color: var(--clr-dark-blue);
   color: var(--clr-warm-beige-400);
   /* color: var(--clr-slate600); */
 

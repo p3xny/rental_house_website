@@ -17,6 +17,7 @@ const props = defineProps({
 const { t } = useI18n();
 const emit = defineEmits(['animationEnd']);
 const overlay = document.getElementById('overlay');
+const mobileNav = document.getElementById('mobile-nav');
 
 const animationClass = computed(() => {
   if (props.animateClose) return 'slide-out';
@@ -32,27 +33,20 @@ const callPhone = () => {
   window.location.href = 'tel:+48692434000';
 }
 
-
-// const animateClose = ref(false);
-// const closeMobileNav = () => {
-//   animateClose.value = true;
-// }
-
-// const reservationSection = document.getElementById('reservation-section')
-
-// const goToReservationSection = () => {
-//   closeMobileNav();
-//   window.scrollTo(reservationSection);
-// }
-
-
-// const reservationBtn = document.getElementById('reservationButton');
-// const reservationSection = document.getElementById('reservation-section');
-
 const isReservationSection = ref(null);
 
 const scrollToReservation = () => {
   isReservationSection.value?.scrollIntoView({ behavior: 'smooth' });
+}
+
+const closeMobileNav = () => {
+
+  overlay.style.display = 'none';
+  mobileNav.style.display = 'none';
+  if (overlay && mobileNav) {
+    overlay.style.display = 'none';
+    mobileNav.style.display = 'none';
+  }
 }
 </script>
 
@@ -72,10 +66,10 @@ const scrollToReservation = () => {
     </div>
     <ul>
       <li>
-        <a href="/">{{ t('homepage') }}</a>
+        <a href="/#home" @click="closeMobileNav">{{ t('homepage') }}</a>
       </li>
       <li>
-        <a href="/#o-nas">{{ t('about') }}</a>
+        <a href="/#o-nas" @click="closeMobileNav">{{ t('about') }}</a>
       </li>
       <li>
         <a href="/galeria">{{ t('gallery') }}</a>
@@ -101,15 +95,10 @@ const scrollToReservation = () => {
   flex-direction: column;
   align-items: center;
   height: 400px;
-  /* width: 65vw; */
-  /* width: 300px; */
   width: 100vw;
-  /* background-color: var(--clr-dark-blue); */
   background-color: var(--clr-light);
   box-shadow: 0 4px 2px -2px black;
-
-  /* animation: slide-in 0.3s; */
-  z-index: 1001;
+  z-index: 10001;
 }
 
 
@@ -149,9 +138,7 @@ li {
 }
 
 .mobile-nav a {
-  /* color: var(--clr-light); */
-  /* color: var(--clr-warm-beige-600); */
-  color: var(--clr-dark-blue);
+  color: var(--clr-dark);
 
   text-decoration: none;
   font-size: var(--size-xl);
@@ -160,7 +147,6 @@ li {
 }
 
 .mobile-nav a:hover {
-  /* color: gold; */
   color: var(--clr-warm-beige-400);
 }
 
@@ -174,23 +160,14 @@ li {
 }
 
 .btn {
-  /* display: inline-block; */
   font-weight: 600;
   text-decoration: none;
   letter-spacing: +0.05rem;
 
-  /* background-color: var(--clr-warm-beige-400); */
-  color: var(--clr-dark);
   color: var(--clr-light);
-
-
-  background-color: var(--clr-dark-blue);
-
-  /* background-color: var(--clr-light);
-  color: var(--clr-dark-blue); */
+  background-color: var(--clr-dark);
 
   padding: 0.5em 1em;
-  /* border-radius: 6px; */
   transition: transform 0.3s, color 0.3s, background-color 0.3s;
   border: 1px solid var(--clr-dark);
 }
@@ -198,7 +175,7 @@ li {
 .btn:hover {
   transform: translateY(-5px);
   background-color: var(--clr-warm-beige-200);
-  color: var(--clr-dark-blue);
+  color: var(--clr-dark);
   cursor: pointer;
 }
 

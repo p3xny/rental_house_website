@@ -85,13 +85,11 @@ a {
 }
 
 .section {
-  /* margin-top: 10rem; */
-  padding-bottom: 3rem;
+  padding-bottom: 5rem;
 }
 
 .section-wide {
-  /* margin-top: 5rem; */
-  padding-bottom: 3rem;
+  padding-bottom: 5rem;
 }
 
 #overlay {
@@ -149,7 +147,7 @@ a {
 
 
   .section {
-    margin-top: 5rem;
+    /* margin-top: 5rem; */
     padding-bottom: 0;
   }
 

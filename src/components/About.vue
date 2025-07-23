@@ -54,21 +54,21 @@ import tatraMountainsClean from '@/assets/gallery/TatraMountains-Clean.jpg';
 }
 
 .gallery>img:first-child {
-  clip-path: polygon(0 0, calc(100% + var(--_p)) 0, 0 calc(100% + var(--_p)))
+  clip-path: polygon(0 0, calc(100% + var(--_p)) 0, 0 calc(100% + var(--_p)));
 }
 
 .gallery>img:last-child {
-  clip-path: polygon(100% 100%, 100% calc(0% - var(--_p)), calc(0% - var(--_p)) 100%)
+  clip-path: polygon(100% 100%, 100% calc(0% - var(--_p)), calc(0% - var(--_p)) 100%);
 }
 
 
 /* TESTING */
 .gallery>img:first-child {
-  clip-path: polygon(0 0, calc(100% + var(--_p)) 0, 0 calc(100% + var(--_p)))
+  clip-path: polygon(0 0, calc(100% + var(--_p)) 0, 0 calc(100% + var(--_p)));
 }
 
 .gallery>img:last-child {
-  clip-path: polygon(100% 100%, 100% calc(0% - var(--_p)), calc(0% - var(--_p)) 100%)
+  clip-path: polygon(100% 100%, 100% calc(0% - var(--_p)), calc(0% - var(--_p)) 100%);
 }
 
 /* TESTING END */
@@ -91,24 +91,18 @@ br {
 
 .o-nas {
   display: flex;
-  /* width: 100%; */
   align-items: center;
   flex-direction: column;
 
   position: relative;
-  background-color: var(--clr-dark-blue);
-  /* background: linear-gradient(155deg, #052f4a, #052f4a, #228b22); */
-
+  background-color: var(--clr-dark);
   text-align: left;
 
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 5rem;
 }
 
 .o-nas__title {
   font-size: var(--size-2xl);
-  /* color: var(--clr-warm-beige-400); */
-  /* color: var(--clr-forest-green-400); */
   color: var(--clr-light);
 
   justify-self: left;
@@ -129,7 +123,7 @@ br {
   width: 94%;
   justify-self: center;
   border-radius: 18px;
-  /* box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.4); */
+  box-shadow: 10px 10px 10px rgba(255, 255, 255, 1);
 }
 
 .o-nas__line {

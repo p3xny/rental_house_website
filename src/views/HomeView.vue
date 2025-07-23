@@ -113,13 +113,17 @@ import Contact from '../components/Contact.vue';
 
 .vc-light.vc-attr,
 .vc-light .vc-attr {
-  --vc-highlight-solid-bg: var(--clr-warm-beige-600);
-  --vc-highlight-solid-bg: var(--clr-slate800);
+  /* --vc-highlight-solid-bg: var(--clr-warm-beige-600); */
+  /* --vc-highlight-solid-bg: var(--clr-slate800); */
+  --vc-highlight-solid-bg: var(--clr-dark);
 
   --vc-highlight-outline-border: var(--clr-warm-beige-600);
   --vc-highlight-outline-content-color: var(--clr-warm-beige-800);
   --vc-highlight-light-content-color: var(--clr-slate600);
+
   --vc-dot-bg: var(--clr-warm-beige-600);
+  --vc-dot-bg: var(--clr-slate600);
+
   --vc-bar-bg: var(--clr-warm-beige-600);
 }
 
