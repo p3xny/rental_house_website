@@ -1,17 +1,15 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useCalendarStore } from '@/stores/calendarStore';
 import { useScreens } from 'vue-screen-utils';
 import { useI18n } from 'vue-i18n';
 
+import { useGuestStore } from '@/stores/guestStore';
 import { dateRange, formVisible, sendReservationRequest } from '@/utils/reservationRequest';
 
 
 const { t } = useI18n();
 const emit = defineEmits(['toggleElement']);
-const handleClick = () => {
-  emit('toggleElement');
-}
 
 const months = ['Styczeń', 'Luty', 'Marzec',
   'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec',
@@ -24,11 +22,12 @@ const today = date.getDate();
 const tomorrow = today + 1;
 const year = date.getFullYear();
 const monthFirstLetters = months[month].substr(0, 3);
-
 const dateTomorrow = ref(`${today + 1} ${monthFirstLetters} ${year}`);
+const startDateNumber = ref(null);
+const endDateNumber = ref(null);
 
 
-const peopleCount = ref(2);
+const guestStore = useGuestStore();
 const guestLimit = 13;
 const numberOfPeople = (n) => {
   if (n < 5 && n != 1) {
@@ -39,8 +38,7 @@ const numberOfPeople = (n) => {
     return 'osoba';
   }
 }
-
-
+// SOMETHING TO GET RID OF
 const isDropdown = ref(false);
 const changeNumberOfGuests = (id) => {
   const element = document.getElementById(`${id}`);
@@ -49,8 +47,9 @@ const changeNumberOfGuests = (id) => {
   console.log(`PEOPLE COUNT VALUE: ${peopleCount.value}`);
 }
 
-
+// SOMETHIGN TO GET RID OF
 const isCalendarOpen = ref(false);
+
 const calendarStore = useCalendarStore();
 const { mapCurrent } = useScreens({
   xs: '0px',
@@ -58,7 +57,8 @@ const { mapCurrent } = useScreens({
   md: '768px',
   lg: '1024px',
 });
-const columns = mapCurrent({ lg: 2 }, 2);
+const columns = mapCurrent({ sm: 1 }, 1);
+const columnsWide = mapCurrent({ sm: 2 }, 2);
 const attrs = ref([
   {
     key: 'Any',
@@ -68,30 +68,29 @@ const attrs = ref([
   }
 ]);
 const userLocale = ref('pl-PL');
-// const monthsCount = computed(() => rows.value * columns.value);
-
-// const dateRange = ref({
-//   start: new Date(),
-//   end: new Date(),
-// })
-
-const confirmRange = () => {
-  alert(`Dziękujemy za wysłania zapytania! Odpiszemy tak szybko jak to możliwe`)
-}
 
 const masks = {
   input: 'DD MMM YYYY',
 }
 
+
+
+const expanded = ref(null);
+const width = ref(window.innerWidth);
+const updateWidth = () => {
+  width.value = window.innerWidth;
+  if (width.value >= 550) {
+    expanded.value = mapCurrent({ lg: false }, true);
+  } else {
+    expanded.value = null;
+  }
+};
+
 const toggleReservationForm = () => {
-  const element = document.getElementById('reservation-final-form');
+  const element = document.getElementById('reservation-popup-form');
   element.style.display = 'block';
   formVisible.value = !formVisible.value;
 };
-
-const selectedNumber = ref(1);
-const numbers = Array.from({ length: 13 }, (_, i) => i + 1);
-// RESERVATION FORM^
 
 
 const formattedStartDate = computed(() => {
@@ -131,8 +130,8 @@ const formattedEndDate = computed(() => {
 onMounted(() => {
   const selectedStartDate = formattedStartDate.value.substr(0, 2);
   const selectedEndDate = formattedEndDate.value.substr(0, 2);
-  const startDateNumber = Number(selectedStartDate);
-  const endDateNumber = Number(selectedEndDate);
+  startDateNumber.value = Number(selectedStartDate);
+  endDateNumber.value = Number(selectedEndDate);
   console.log(`${typeof startDateNumber}: ${startDateNumber}, nDay: ${endDateNumber}... 1: ${typeof 1}`);
 
   // RESERVATION FORM
@@ -153,7 +152,16 @@ onMounted(() => {
     };
   })
   // RESERVATION FORM^
+
+  window.addEventListener('resize', updateWidth); {
+    updateWidth();
+  }
 });
+
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateWidth);
+})
 
 </script>
 
@@ -162,13 +170,18 @@ onMounted(() => {
   <div id="overlay" v-else-if="formVisible" @click="toggleReservationForm()"></div>
 
   <div id="calendar-container" class="calendar-container" v-if="calendarStore.isCalendarVisible">
-    <VDatePicker id="calendar-popUp" v-model.range="dateRange" :min-date="new Date()" :columns="columns"
-      :attributes="attrs" :expanded="expanded" :locale="userLocale" :masks="masks" class="my-custom-datepicker" />
-    <!-- :months="monthsCount" -->
+    <div id="calendarNarrow-inSection" v-if="width < 550">
+      <VDatePicker :min-date="new Date()" :columns="columns" :attributes="attrs" :expanded="null" :locale="userLocale"
+        v-model.range="dateRange" :masks="masks" class="my-custom-datepicker" />
+    </div>
+    <div id="calendarWide-inSection" v-else>
+      <VDatePicker :min-date="new Date()" :columns="columnsWide" :attributes="attrs" :expanded="expanded"
+        :locale="userLocale" v-model.range="dateRange" :masks="masks" class="my-custom-datepicker" />
+    </div>
   </div>
 
   <!-- FORM for sending messages -->
-  <div class="reservation-final-form" id="reservation-final-form" v-show="formVisible"
+  <div class="reservation-popup-form" id="reservation-popup-form" v-show="formVisible"
     :style="{ display: formVisible ? 'block' : 'none' }">
 
     <div class="user-data-container">
@@ -195,10 +208,8 @@ onMounted(() => {
       </div>
     </div>
 
-
     <div class="message-field">
       <span>{{ t('anyQuestions') }} {{ t('messageUs') }}</span>
-      <!-- <span><strong>{{ t('message') }}:</strong></span> -->
       <textarea id="message-input-popUpForm" class="message-input" placeholder="Napisz wiadomość..."
         maxlength="500"></textarea>
       <p id="charCount">0/500 znaków</p>
@@ -225,17 +236,13 @@ onMounted(() => {
         <span v-if="endDateNumber + 1 < 10">0{{ formattedEndDate ? formattedEndDate : dateTomorrow }}</span>
         <span v-else="">{{ formattedEndDate ? formattedEndDate : dateTomorrow }}</span>
       </div>
-      <div class="rezerwacja__guests" id="guestsButton">{{ peopleCount }} {{ numberOfPeople(peopleCount) }}
-        <!-- <select id="number-select" v-model="selectedNumber"> -->
-        <!-- <option class="number" v-for="number in numbers" :key="number" :value="number"> -->
-        <!-- {{ number }} -->
-        <!-- </option> -->
-        <!-- </select> -->
-
+      <div class="rezerwacja__guests" id="guestsButton">{{ guestStore.peopleCount }} {{
+        numberOfPeople(guestStore.peopleCount) }}
         <div id="guest-dropdown-menu" class="dropdown-content">
           <ul class="guest-ul">
-            <li :id="`guest-li-${n}`" :class="isDropdown ? 'guest-li-none' : 'guest-li'"
-              v-for="(n, index) in guestLimit" :key="index" @click="changeNumberOfGuests(`guest-li-${n}`)">{{ n }}
+            <li v-for="n in guestLimit" :key="n" :class="{ 'guest-li': true, 'active': guestStore.peopleCount === n }"
+              @click="guestStore.peopleCount = n">
+              {{ n }}
             </li>
           </ul>
         </div>
@@ -259,7 +266,7 @@ li {
   padding: 0;
 }
 
-.calendar-container {
+.calendars-wrapper {
   position: fixed;
   left: 50%;
   top: 50%;
@@ -278,7 +285,6 @@ li {
   display: flex;
   width: 356px;
   font-size: var(--size-sm);
-  font-weight: bold;
 }
 
 .rezerwacja__header {
@@ -311,7 +317,6 @@ li {
   color: var(--clr-dark);
   border: none;
   font-size: var(--size-sm);
-  font-weight: bold;
   text-transform: uppercase;
   transition: color 0.3s;
   border-top-right-radius: 6px;
@@ -378,7 +383,7 @@ li {
 }
 
 /* RESERVATION POP UP FORM */
-.reservation-final-form {
+.reservation-popup-form {
   position: fixed;
   width: 100%;
   height: 600px;
@@ -538,7 +543,7 @@ li {
     font-size: 1.2rem;
   }
 
-  .reservation-final-form {
+  .reservation-popup-form {
     width: 700px;
     height: 620px;
 
@@ -573,7 +578,7 @@ li {
     width: 740px;
   }
 
-  .reservation-final-form {
+  .reservation-popup-form {
     width: 800px;
     height: 600px;
   }

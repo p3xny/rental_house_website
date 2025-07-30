@@ -64,7 +64,8 @@ def get_data():
 async def send_message(payload: RequestPayload):
     if payload.startDate >= payload.endDate:
         raise HTTPException(
-            status_code=400, detail="End date must be after start date."
+            status_code=400,
+            detail='\nProsimy ustawić datę planowanego pobytu w sekcji "REZERWACJA" lub klikając na datę w pasku pod tytułem strony.',
         )
 
     is_available = True

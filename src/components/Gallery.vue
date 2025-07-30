@@ -162,7 +162,7 @@ const handleAnimationEnd = () => {
 .image-wrapper {
   overflow: hidden;
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
   /* height: calc(100vh - 65px); */
 }
 

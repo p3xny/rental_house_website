@@ -22,14 +22,6 @@
         <!-- domekrzepiska@gmail.com -->
       </a>
 
-      <!-- <a class="footer-item"
-        href="https://www.google.com/maps/place/Domek+Panorama+Rzepiska/@49.358264,20.160799,17z/data=!3m1!4b1!4m6!3m5!1s0x4715f702446785ad:0xc02c34230f66dfb!8m2!3d49.358264!4d20.160799!16s%2Fg%2F1hhhgzcty?entry=ttu&g_ep=EgoyMDI1MDQxMy4wIKXMDSoASAFQAw%3D%3D">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-          <path
-            d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" />
-        </svg>
-      </a> -->
-
       <a class="google"
         href="https://www.google.com/maps/place/Domek+Panorama+Rzepiska/@49.358264,20.160799,17z/data=!3m1!4b1!4m6!3m5!1s0x4715f702446785ad:0xc02c34230f66dfb!8m2!3d49.358264!4d20.160799!16s%2Fg%2F1hhhgzcty?entry=ttu&g_ep=EgoyMDI1MDQxMy4wIKXMDSoASAFQAw%3D%3D"
         target="_blank" rel="noopener noreferrer" aria-label="Google">

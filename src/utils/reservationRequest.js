@@ -1,25 +1,19 @@
 import { ref } from 'vue'
-// import { formVisible } from './../components/Reservation.vue'
+import { useGuestStore } from '@/stores/guestStore'
 
 export const dateRange = ref({
   start: new Date(),
   end: new Date(),
 })
 
-const peopleCount = ref(2)
+// export const peopleCount = ref(2)
 export const formVisible = ref(false)
 
 export const closeForm = () => {
   formVisible.value = false
 }
 
-const isDropdown = ref(false)
-export const changeNumberOfGuests = (id) => {
-  const element = document.getElementById(`${id}`)
-  isDropdown.value = false
-  peopleCount.value = element.innerHTML
-  console.log(`PEOPLE COUNT VALUE: ${peopleCount.value}`)
-}
+export const isDropdown = ref(false)
 
 export const sendReservationRequest = async (emailID, phoneID, messageID) => {
   const email = document.getElementById(emailID).value.trim()
@@ -37,7 +31,7 @@ export const sendReservationRequest = async (emailID, phoneID, messageID) => {
     message,
     startDate: dateRange.value.start.toISOString().split('T')[0],
     endDate: dateRange.value.end.toISOString().split('T')[0],
-    people: peopleCount.value,
+    people: useGuestStore().peopleCount,
   }
 
   try {

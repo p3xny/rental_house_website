@@ -85,6 +85,8 @@ a {
 }
 
 .section {
+  margin: 0;
+  height: auto;
   padding-bottom: 5rem;
 }
 

@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { useCalendarStore } from '@/stores/calendarStore';
 import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
 import { useScreens } from 'vue-screen-utils';
 import { useI18n } from 'vue-i18n';
 
+import { useGuestStore } from '@/stores/guestStore';
 import { dateRange, formVisible, sendReservationRequest } from '@/utils/reservationRequest';
 
 
@@ -18,8 +19,6 @@ const { mapCurrent } = useScreens({
 });
 const columns = mapCurrent({ sm: 1 }, 1);
 const columnsWide = mapCurrent({ sm: 2 }, 2);
-
-// const expanded = mapCurrent({ lg: false }, true);
 const expanded = ref(null);
 const attrs = ref([
   {
@@ -41,31 +40,10 @@ const updateWidth = () => {
   }
 };
 
-// RESERVATION REQUEST DATA
-const peopleCount = ref(2);
-const guestLimit = 13;
-const numberOfPeople = (n) => {
-  if (n < 5 && n != 1) {
-    return 'osoby';
-  } else if (n >= 5) {
-    return 'osób';
-  } else {
-    return 'osoba';
-  }
-}
-
-
-const isDropdown = ref(false);
-const changeNumberOfGuests = (id) => {
-  const element = document.getElementById(`${id}`);
-  isDropdown.value = false
-  peopleCount.value = element.innerHTML
-  console.log(`PEOPLE COUNT VALUE: ${peopleCount.value}`);
-}
 
 // DROPDOWN START
-const selectedNumber = ref(1);
 const numbers = Array.from({ length: 13 }, (_, i) => i + 1); // Creates [1, 2, ..., 13]
+const guestStore = useGuestStore();
 // DROPDOWN END
 
 
@@ -120,9 +98,8 @@ onUnmounted(() => {
           </svg>
         </p>
 
-        <select id="number-select" v-model="selectedNumber">
-          <option class="number" v-for="number in numbers" :key="number" :value="number"
-            @click="changeNumberOfGuests(number)">
+        <select id="number-select" v-model="guestStore.peopleCount">
+          <option class="number" v-for="number in numbers" :key="number" :value="number">
             {{ number }}
           </option>
         </select>
@@ -205,20 +182,15 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   padding-top: 3rem;
-  padding-bottom: 2rem;
-  /* gap: 0.5rem; */
+  padding-bottom: 3rem;
   width: 100%;
   box-sizing: border-box;
-
-  /* background-color: var(--clr-slate600); */
 }
 
 .reservation__title {
   text-align: center;
   font-size: var(--size-2xl);
   font-weight: 500;
-
-
   padding-top: 2rem;
 }
 
@@ -367,6 +339,7 @@ onUnmounted(() => {
 }
 
 @media (min-width: 1024px) {
+
   .reservation__title {
     font-size: var(--size-4xl);
   }
